@@ -138,7 +138,7 @@ void manip_1() {
 			| TIMER_A_CTL_SSEL_MASK);
 	TIMER_A0->CTL |= TIMER_A_CTL_MC__CONTINUOUS | TIMER_A_CTL_SSEL__SMCLK;
 
-	pwm_soft(&P2->OUT, 2, duty_cycle, max_cycle);
+	pwm_soft(&P2->OUT, 4, duty_cycle, max_cycle);
 }
 
 /**
@@ -273,6 +273,26 @@ void set_pwm_duty(Timer_A_Type* T, int idx, float duty_cycle) {
 }
 
 /**
+ * Set the timer block to UP mode, with the specified period
+ */
+int timer_block_mode_up(Timer_A_Type* T, int period) {
+	// get cycle count for period
+	int div_id, div_idex;
+	int num_cycles = calculate_cycles(period, &div_id, &div_idex);
+	if(num_cycles < 0)
+		return -1;
+
+	// setup input
+	set_timer_input(T, TIMER_A_CTL_MC__UP, TIMER_A_CTL_SSEL__SMCLK, div_id, div_idex);
+	// clear interrupt flag & set compare mode
+	T->CCTL[0] &= ~(TIMER_A_CCTLN_CCIFG | TIMER_A_CCTLN_CAP);
+	// EQU0 for max value
+	T->CCR[0] = num_cycles;
+
+	return 0;
+}
+
+/**
  * Create PWM on timer output
  */
 void pwm_timer_setup(Timer_A_Type* T, int idx, int width, float duty_cycle) {
@@ -280,20 +300,14 @@ void pwm_timer_setup(Timer_A_Type* T, int idx, int width, float duty_cycle) {
 	if(idx < 1 || idx > 4)
 		return;
 
-	// get cycle count for width
-	int div_id, div_idex;
-	int num_cycles = calculate_cycles(width, &div_id, &div_idex);
-	if(num_cycles < 0)
-		return;
-
 	// reset timer
 	T->CTL |= TIMER_A_CTL_CLR;
 
-	// setup input
-	set_timer_input(T, TIMER_A_CTL_MC__UP, TIMER_A_CTL_SSEL__SMCLK, div_id, div_idex);
+	// set timer block to up mode, with specified width
+	if(timer_block_mode_up(T, width) < 0)
+		return;
 
-	// EQU0 for max value, EQUn for active value
-	T->CCR[0] = num_cycles;
+	// EQUn for active value
 	set_pwm_duty(T, idx, duty_cycle);
 
 	// outmod -> reset/set
@@ -367,10 +381,10 @@ void manip_3() {
 	P2->OUT = 0x00;
 
 	while(1) {
-		P2->OUT |= 2;
-		wait(1000);
-		P2->OUT &= ~2;
-		wait(1000);
+		P2->OUT |= 16;
+		wait(50);
+		P2->OUT &= ~16;
+		wait(100);
 	}
 }
 
@@ -392,10 +406,40 @@ void manip_4() {
 	}
 }
 
+void periodic_interrupt(int period) {
+	Timer_A_Type* T = TIMER_A0;
+	IRQn_Type irq = TA0_0_IRQn;
+
+	if(timer_block_mode_up(T, period) < 0)
+		return;
+
+	// enable CCR interrupts triggers
+	T->CCTL[0] |= TIMER_A_CCTLN_CCIE;
+
+	// enable interrupt handling
+	NVIC_EnableIRQ(irq);
+	NVIC_SetPriority(irq, 4);
+}
+
+void TA0_0_IRQHandler(void) {
+	// Clear interrupt flag before doing anything
+	TIMER_A0->CCTL[0] &= ~TIMER_A_CCTLN_CCIFG;
+
+	P2->OUT ^= BIT(4);
+}
+
+void manip_5() {
+	P2->DIR = 0xFF;
+	P2->OUT = 0x00;
+	periodic_interrupt(50);
+}
+
 void main(void) {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
 
 	setup_dco(DCO_FREQ);
 	use_dco_master(M_DIV, SM_DIV);
-	manip_4();
+
+	manip_5();
+	while(1);
 }
