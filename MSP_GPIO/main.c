@@ -407,8 +407,8 @@ void manip_4() {
 }
 
 void periodic_interrupt(int period) {
-	Timer_A_Type* T = TIMER_A0;
-	IRQn_Type irq = TA0_0_IRQn;
+	Timer_A_Type* T = TIMER_A3;
+	IRQn_Type irq = TA3_0_IRQn;
 
 	if(timer_block_mode_up(T, period) < 0)
 		return;
@@ -422,11 +422,13 @@ void periodic_interrupt(int period) {
 }
 
 void adc_conversion_start();
-void TA0_0_IRQHandler(void) {
+void adc_conversion_enable();
+void TA3_0_IRQHandler(void) {
 	// Clear interrupt flag before doing anything
-	TIMER_A0->CCTL[0] &= ~TIMER_A_CCTLN_CCIFG;
+	TIMER_A3->CCTL[0] &= ~TIMER_A_CCTLN_CCIFG;
 
-	P2->OUT ^= BIT(4);
+	//P2->OUT ^= BIT(4);
+	adc_conversion_enable();
 	adc_conversion_start();
 }
 
@@ -540,17 +542,32 @@ void ADC14_IRQHandler(void) {
 
 	// Reading the value resets the interrupt
 	int value = ADC14->MEM[idx];
-	printf("%d\n", value);
+	//printf("%d\n", value);
+
+	// Calculate new PWM duty cycle (between 0.05 and 0.1)
+	float duty = 0.05 + 0.05 * value / BIT(14);
+	set_pwm_hard_timer_fixed_duty(duty);
 }
 
 void manip_6() {
 	adc_setup(ADC14_CTL0_SSEL__SMCLK, ADC14_CTL0_SHS_0, ADC14_CTL1_RES__14BIT); // software trigger
-	adc_memory_setup(0, 0, 5); // A0 to memory idx 0
-	use_port_adc(5, &P5->SEL0, &P5->SEL1); // P5.5 is A0
+	adc_memory_setup(0, 13, 5); // A13 to memory idx 0
+	use_port_adc(0, &P4->SEL0, &P4->SEL1); // P4.0 is A13
 
 	adc_interrupts_enable();
 	adc_conversion_enable();
 	periodic_interrupt(1000);
+}
+
+void manip_7() {
+	adc_setup(ADC14_CTL0_SSEL__SMCLK, ADC14_CTL0_SHS_0, ADC14_CTL1_RES__14BIT); // software trigger
+	adc_memory_setup(0, 13, 5); // A13 to memory idx 0
+	use_port_adc(0, &P4->SEL0, &P4->SEL1); // P4.0 is A13
+	adc_interrupts_enable();
+
+	pwm_hard_timer_fixed(0);
+
+	periodic_interrupt(50);
 }
 
 void main(void) {
@@ -559,6 +576,6 @@ void main(void) {
 	setup_dco(DCO_FREQ);
 	use_dco_master(M_DIV, SM_DIV);
 
-	manip_6();
+	manip_7();
 	while(1);
 }
