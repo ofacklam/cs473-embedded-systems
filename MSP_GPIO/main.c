@@ -421,11 +421,13 @@ void periodic_interrupt(int period) {
 	NVIC_SetPriority(irq, 4);
 }
 
+void adc_conversion_start();
 void TA0_0_IRQHandler(void) {
 	// Clear interrupt flag before doing anything
 	TIMER_A0->CCTL[0] &= ~TIMER_A_CCTLN_CCIFG;
 
 	P2->OUT ^= BIT(4);
+	adc_conversion_start();
 }
 
 void manip_5() {
@@ -434,12 +436,129 @@ void manip_5() {
 	periodic_interrupt(50);
 }
 
+void adc_setup(uint32_t clk_src, uint32_t trigger, uint32_t resolution_mode) {
+	// Turn ADC on, clear conversion
+	ADC14->CTL0 |= ADC14_CTL0_ON;
+	ADC14->CTL0 &= ~ADC14_CTL0_ENC;
+
+	// Select pulse mode, single conversion
+	ADC14->CTL0 |= ADC14_CTL0_SHP;
+	ADC14->CTL0 &= ~ADC14_CTL0_CONSEQ_MASK;
+
+	// Select clock
+	ADC14->CTL0 &= ~ADC14_CTL0_SSEL_MASK;
+	ADC14->CTL0 |= (clk_src & ADC14_CTL0_SSEL_MASK);
+
+	// Select trigger signal
+	ADC14->CTL0 &= ~ADC14_CTL0_SHS_MASK;
+	ADC14->CTL0 |= (trigger & ADC14_CTL0_SHS_MASK);
+
+	// Select resolution
+	ADC14->CTL1 &= ~ADC14_CTL1_RES_MASK;
+	ADC14->CTL1 |= (resolution_mode & ADC14_CTL1_RES_MASK);
+}
+
+int calculate_adc_timer_mode(int sample_time) {
+	int modes[] = {4, 8, 16, 32, 64, 96, 128, 192};
+
+	int min_cycles = 1 + sample_time * DCO_FREQ / (1000*SM_DIV); // sample_time in us, freq in khz
+	int mode = 8;
+
+	while(mode > 0 && min_cycles <= modes[mode-1])
+		mode--;
+
+	return mode;
+}
+
+void adc_memory_setup(int idx, int channel, int sample_time) {
+	// Single-ended mode, with ref (Vcc, Vss)
+	ADC14->MCTL[idx] &= ~ADC14_MCTLN_DIF;
+	ADC14->MCTL[idx] &= ~ADC14_MCTLN_VRSEL_MASK;
+
+	// Select timer mode
+	int mode = calculate_adc_timer_mode(sample_time);
+	if(mode < 0 || mode > 7)
+		return;
+
+	int mask, ofs;
+	if(idx <= 7 || idx >= 24) {
+		mask = ADC14_CTL0_SHT0_MASK;
+		ofs = ADC14_CTL0_SHT0_OFS;
+	} else {
+		mask = ADC14_CTL0_SHT1_MASK;
+		ofs = ADC14_CTL0_SHT1_OFS;
+	}
+	ADC14->CTL0 &= ~mask;
+	ADC14->CTL0 |= (mode << ofs) & mask;
+
+	// Select channel
+	ADC14->MCTL[idx] &= ~ADC14_MCTLN_INCH_MASK;
+	ADC14->MCTL[idx] |= channel & ADC14_MCTLN_INCH_MASK;
+
+	// Set conversion address to this memory
+	ADC14->CTL1 &= ~ADC14_CTL1_CSTARTADD_MASK;
+	ADC14->CTL1 |= (idx << ADC14_CTL1_CSTARTADD_OFS) & ADC14_CTL1_CSTARTADD_MASK;
+
+	// Enable interrupt for this memory
+	ADC14->CLRIFGR0 |= 1 << idx;
+	ADC14->IER0 |= 1 << idx;
+}
+
+void adc_interrupts_enable() {
+	NVIC_EnableIRQ(ADC14_IRQn);
+	NVIC_SetPriority(ADC14_IRQn, 4);
+}
+
+void adc_conversion_enable() {
+	ADC14->CTL0 |= ADC14_CTL0_ENC;
+}
+
+void adc_conversion_disable() {
+	ADC14->CTL0 &= ~ADC14_CTL0_ENC;
+}
+
+void adc_conversion_start() {
+	ADC14->CTL0 |= ADC14_CTL0_SC;
+}
+
+void use_port_adc(int bit, uint8_t volatile *sel_0, uint8_t volatile *sel_1) {
+	// both select bits to 1, to minimize parasitics & enable ADC input
+	*sel_0 |= BIT(bit);
+	*sel_1 |= BIT(bit);
+}
+
+void ADC14_IRQHandler(void) {
+	// Read interrupt vector & get memory index
+	int int_nb = ADC14->IV;
+	int idx = int_nb/2 - 6;
+
+	// if not a conversion finish, simply clear flags
+	if(idx < 0 || idx > 31) {
+		ADC14->IV = 0;
+		return;
+	}
+
+	// Reading the value resets the interrupt
+	int value = ADC14->MEM[idx];
+	printf("%d\n", value);
+}
+
+void manip_6() {
+	adc_setup(ADC14_CTL0_SSEL__SMCLK, ADC14_CTL0_SHS_0, ADC14_CTL1_RES__14BIT); // software trigger
+	adc_memory_setup(0, 0, 5); // A0 to memory idx 0
+	use_port_adc(5, &P5->SEL0, &P5->SEL1); // P5.5 is A0
+
+	adc_interrupts_enable();
+	adc_conversion_enable();
+	periodic_interrupt(1000);
+}
+
 void main(void) {
 	WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD;		// stop watchdog timer
 
 	setup_dco(DCO_FREQ);
 	use_dco_master(M_DIV, SM_DIV);
 
-	manip_5();
+	manip_6();
 	while(1);
 }
