@@ -37,8 +37,8 @@ void dco_setup(int khz) {
 	int center_frq = ((1 << mode) + (1 << (mode+1))) * 500; // in khz
 
 	// get calibration values
-	uint32_t fcal = mode < 5 ? TLV->DCOIR_FCAL_RSEL04 : TLV->DCOIR_FCAL_RSEL5;
-	float k = *((float*) (mode < 5 ? &TLV->DCOIR_CONSTK_RSEL04 : &TLV->DCOIR_CONSTK_RSEL5));
+	uint32_t fcal = mode < 5 ? TLV->DCOER_FCAL_RSEL04 : TLV->DCOER_FCAL_RSEL5;
+	float k = *((float*) (mode < 5 ? &TLV->DCOER_CONSTK_RSEL04 : &TLV->DCOER_CONSTK_RSEL5));
 
 	// calculate tuning with formula
 	uint16_t n_tune = (khz-center_frq) * (1 + k * (768-fcal)) / (khz * k);
@@ -46,6 +46,11 @@ void dco_setup(int khz) {
 
 	// write-enable the clock system
 	CS->KEY = CS_KEY_VAL;
+
+	// switch to external resistor
+	CS->CTL0 &= ~CS_CTL0_DCORSEL_MASK;
+	CS->CTL0 |= CS_CTL0_DCORSEL_1;
+	CS->CTL0 |= CS_CTL0_DCORES;
 
 	// write DCO tuning info
 	CS->CTL0 &= ~(CS_CTL0_DCORSEL_MASK | CS_CTL0_DCOTUNE_MASK);

@@ -11,7 +11,7 @@
 #include "msp.h"
 #include <stdio.h>
 
-#define DCO_FREQ 3000
+#define DCO_FREQ 4000
 #define M_DIV 1
 #define SM_DIV 4
 
