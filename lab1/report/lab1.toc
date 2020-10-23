@@ -1,0 +1,17 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Problem statement}{1}%
+\contentsline {section}{\numberline {2}High-level system description}{2}%
+\contentsline {section}{\numberline {3}Detailed operation description}{3}%
+\contentsline {subsection}{\numberline {3.1}General setup}{3}%
+\contentsline {subsection}{\numberline {3.2}Clock system}{4}%
+\contentsline {subsection}{\numberline {3.3}Timers}{5}%
+\contentsline {subsubsection}{\numberline {3.3.1}Timer block configuration}{5}%
+\contentsline {subsubsection}{\numberline {3.3.2}PWM generation}{6}%
+\contentsline {subsubsection}{\numberline {3.3.3}Timer interrupts}{7}%
+\contentsline {subsection}{\numberline {3.4}Precision ADC}{8}%
+\contentsline {subsubsection}{\numberline {3.4.1}Conversion setup}{8}%
+\contentsline {subsubsection}{\numberline {3.4.2}ADC interrupts}{9}%
+\contentsline {section}{\numberline {4}Operation \& results}{10}%
+\contentsline {subsection}{\numberline {4.1}Observed results}{10}%
+\contentsline {subsection}{\numberline {4.2}Precision considerations}{10}%
+\contentsline {section}{\numberline {5}Conclusion}{11}%

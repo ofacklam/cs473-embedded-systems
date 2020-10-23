@@ -1,4 +1,20 @@
+# Caches
 .metadata/
 .jxbrowser-data/
 
-*/Debug/*
+# Compilation output
+**/Debug/*
+
+# CCS files
+ccs1010
+components
+ccs_setup*
+README_FIRST_linux*
+
+# Logic analyzer
+**/logic_ana/*
+
+demo.mp4
+*.zip
+
+
