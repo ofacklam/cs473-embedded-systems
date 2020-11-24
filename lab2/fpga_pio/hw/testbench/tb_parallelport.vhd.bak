@@ -1,0 +1,109 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity tb_parallelport is
+end tb_parallelport;
+
+architecture test of tb_parallelport is
+
+    constant CLK_PERIOD: time := 100ns;
+    signal test_finished: boolean := false;
+
+    -- parallel port signals
+    signal clk: std_logic;
+    signal nReset: std_logic;
+    signal address: std_logic_vector(2 downto 0);
+    signal write: std_logic;
+    signal read: std_logic;
+    signal writedata: std_logic_vector(7 downto 0);
+    signal readdata: std_logic_vector(7 downto 0);
+    signal ParPort: std_logic_vector(7 downto 0);
+
+begin
+
+    -- instantiate the parallel port
+    dut: entity work.ParallelPort
+    port map(
+        clk => clk,
+        nReset => nReset,
+        address => address,
+        write => write,
+        read => read,
+        writedata => writedata,
+        readdata => readdata,
+        ParPort => ParPort
+    );
+
+    -- continuous clock signal
+    clk_generation: process
+    begin
+        if not test_finished then
+            clk <= '1';
+            wait for CLK_PERIOD / 2;
+            clk <= '0';
+            wait for CLK_PERIOD / 2;
+        else
+            wait;
+        end if;
+    end process;
+
+    -- test the parallel port
+    simulation: process
+    
+            procedure async_reset is 
+            begin
+                wait until rising_edge(clk);
+                wait for CLK_PERIOD / 4;
+                nReset <= '0';
+                wait for CLK_PERIOD / 2;
+                nReset <= '1';
+            end procedure async_reset;
+
+            procedure writeRegister(addr: in std_logic_vector(2 downto 0); data: in std_logic_vector(7 downto 0)) is
+            begin
+                wait until rising_edge(clk);
+                address <= addr;
+                write <= '1';
+                read <= '0';
+                writedata <= data;
+                wait until rising_edge(clk);
+            end procedure writeRegister;
+
+            procedure testRegister(addr: in std_logic_vector(2 downto 0); expected: in std_logic_vector(7 downto 0)) is
+            begin
+                wait until rising_edge(clk);
+                address <= addr;
+                write <= '0';
+                read <= '1';
+                wait until rising_edge(clk);
+                
+                assert readdata = expected
+                report "Unexpected result: " &
+                        "Register = " & integer'image(to_integer(addr)) &
+                        "Read = " & integer'image(to_integer(readdata)) &
+                        "Expected = " & integer'image(to_integer(expected))
+                severity error;
+            end procedure testRegister;
+
+    begin
+
+        -- default values
+        nReset <= '1';
+        address <= (others => '0');
+        readdata <= (others => '0');
+        writedata <= (others => '0');
+        read <= '0';
+        write <= '0';
+        wait for CLK_PERIOD;
+
+        -- reset
+        async_reset;
+
+        -- test 1 register
+        writeRegister(b"00", b"00000001");
+        testRegister(b"00", b"00000001");
+
+    end process;
+
+end architecture test;
