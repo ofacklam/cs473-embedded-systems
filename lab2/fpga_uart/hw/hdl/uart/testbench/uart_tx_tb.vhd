@@ -69,7 +69,7 @@ begin
         end if;
     end process;
 
-    -- test the parallel port
+    -- test the UART TX
     simulation: process
     
             procedure async_reset is 
@@ -100,7 +100,8 @@ begin
                 severity error;
             end procedure checkValue;
 
-            procedure checkTransmission(data: in std_logic_vector(7 downto 0)) is
+            procedure checkTransmission(data: in std_logic_vector(7 downto 0);
+                                        expected: in std_logic_vector(7 downto 0)) is
             begin
                 assert ready = '1' report "Ready should be true" severity error;
 
@@ -113,7 +114,7 @@ begin
 
                 for i in 0 to 7 loop
                     waitBaudInterval(to_integer(baudrate) * CLK_DIVIDER);
-                    checkValue(i, TX, data(i)); -- data / parity bit
+                    checkValue(i, TX, expected(i)); -- data / parity bit
                 end loop;
 
                 waitBaudInterval(to_integer(baudrate) * CLK_DIVIDER);
@@ -122,10 +123,6 @@ begin
                 waitBaudInterval(to_integer(baudrate) * CLK_DIVIDER);
                 assert ready = '1' report "Ready should be true" severity error;
             end procedure;
-
-            
-
-            variable tmp: std_logic_vector(7 downto 0);
 
     begin
 
@@ -146,7 +143,27 @@ begin
         parityenable <= '0';
         parityodd <= '0';
         wait for CLK_PERIOD;
-        checkTransmission("11000011");
+        checkTransmission("11000011", "11000011");
+
+        -- test with even parity
+        baudrate <= X"08";
+        parityenable <= '1';
+        parityodd <= '0';
+        wait for CLK_PERIOD;
+        checkTransmission("11010011", "01010011");
+        checkTransmission("01010011", "01010011");
+        checkTransmission("10010011", "10010011");
+        checkTransmission("00010011", "10010011");
+
+        -- test with odd parity
+        baudrate <= X"08";
+        parityenable <= '1';
+        parityodd <= '1';
+        wait for CLK_PERIOD;
+        checkTransmission("11010011", "11010011");
+        checkTransmission("01010011", "11010011");
+        checkTransmission("10010011", "00010011");
+        checkTransmission("00010011", "00010011");
 
         -- test done
         test_finished <= true;
