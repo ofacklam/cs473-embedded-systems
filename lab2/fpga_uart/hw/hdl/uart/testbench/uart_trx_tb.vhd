@@ -2,30 +2,53 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity tb_uart_rx is
-end tb_uart_rx;
+entity tb_uart_trx is
+end tb_uart_trx;
 
-architecture test of tb_uart_rx is
+architecture test of tb_uart_trx is
 
     constant CLK_PERIOD: time := 100 ns;
     constant CLK_DIVIDER: integer := 4;
     signal test_finished: boolean := false;
 
-    -- uart rx signals
+    -- common signals
     signal nReset:          std_logic;
     signal clk:             std_logic;
     signal clken:           std_logic; -- slow clock
     signal baudrate:        unsigned(7 downto 0);
     signal parityenable:    std_logic;
     signal parityodd:       std_logic;
+
+    -- TX signals
+    signal inputdata:       std_logic_vector(7 downto 0);
+    signal ready:           std_logic;
+    signal start:           std_logic;
+    signal TX:              std_logic;
+
+    -- RX signals
     signal outputdata:      std_logic_vector(7 downto 0);
     signal dataok:          std_logic;
     signal RX:              std_logic;
 
 begin
 
+    -- instantiate the UART TX
+    dutTX: entity work.UartTX
+    port map(
+        nReset => nReset,
+        clk => clk,
+        clken => clken,
+        baudrate => baudrate,
+        parityenable => parityenable,
+        parityodd => parityodd,
+        inputdata => inputdata,
+        ready => ready,
+        start => start,
+        TX => TX
+    );
+
     -- instantiate the UART RX
-    dut: entity work.UartRX
+    dutRX: entity work.UartRX
     port map(
         nReset => nReset,
         clk => clk,
@@ -67,7 +90,10 @@ begin
         end if;
     end process;
 
-    -- test the UART RX
+    -- connect TX to RX
+    RX <= TX;
+
+    -- test the UART tranmission / reception
     simulation: process
     
             procedure async_reset is 
@@ -96,34 +122,34 @@ begin
                 severity error;
             end procedure checkValue;
 
-            procedure checkReception(data: in std_logic_vector(7 downto 0);
-                                    correct: in boolean) is
+            procedure checkTransmission(data: in std_logic_vector(7 downto 0);
+                                        expected: in std_logic_vector(7 downto 0)) is
             begin
-                RX <= '0'; -- start bit
+                -- TX ready
+                assert ready = '1' report "Ready should be true" severity error;
+
+                -- start TX
+                inputdata <= data;
+                start <= '1';
+
                 waitBaudInterval(to_integer(baudrate) * CLK_DIVIDER);
-                assert dataok = '0' report "DataOK should be false after reception begin" severity error;
+                start <= '0';
 
-                for i in 0 to 7 loop
-                    RX <= data(i); -- data bit
-                    waitBaudInterval(to_integer(baudrate) * CLK_DIVIDER);
-                end loop;
-
-                RX <= '1'; -- end bit
-                waitBaudInterval(to_integer(baudrate) * CLK_DIVIDER);
-
-                if correct then
-                    assert dataok = '1' report "DataOK should be true for correct data" severity error;
-                    checkValue(outputdata, data);
-                else
-                    assert dataok = '0' report "DataOK should be false for incorrect data" severity error;
-                end if;
+                -- wait for transmission to finish
+                waitBaudInterval(10 * to_integer(baudrate) * CLK_DIVIDER); -- start + 8*data + stop bit = 10bits
+                
+                -- TX ready, RX correct
+                assert ready = '1' report "Ready should be true" severity error;
+                assert dataok = '1' report "DataOK should be true" severity error;
+                checkValue(outputdata, expected);
             end procedure;
 
     begin
 
         -- default values
         nReset <= '1';
-        RX <= '1';
+        start <= '0';
+        inputdata <= (others => '0');
         baudrate <= X"10";
         parityenable <= '0';
         parityodd <= '0';
@@ -137,27 +163,27 @@ begin
         parityenable <= '0';
         parityodd <= '0';
         wait for CLK_PERIOD;
-        checkReception("11000011", true);
+        checkTransmission("11000011", "11000011");
 
         -- test with even parity
         baudrate <= X"08";
         parityenable <= '1';
         parityodd <= '0';
         wait for CLK_PERIOD;
-        checkReception("11010011", false);
-        checkReception("01010011", true);
-        checkReception("00010011", false);
-        checkReception("10010011", true);
+        checkTransmission("11010011", "01010011");
+        checkTransmission("01010011", "01010011");
+        checkTransmission("10010011", "10010011");
+        checkTransmission("00010011", "10010011");
 
         -- test with odd parity
         baudrate <= X"08";
         parityenable <= '1';
         parityodd <= '1';
         wait for CLK_PERIOD;
-        checkReception("01010011", false);
-        checkReception("11010011", true);
-        checkReception("10010011", false);
-        checkReception("00010011", true);
+        checkTransmission("11010011", "11010011");
+        checkTransmission("01010011", "11010011");
+        checkTransmission("10010011", "00010011");
+        checkTransmission("00010011", "00010011");
 
         -- test done
         test_finished <= true;
