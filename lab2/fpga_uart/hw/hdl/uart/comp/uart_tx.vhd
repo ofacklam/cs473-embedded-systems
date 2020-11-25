@@ -26,7 +26,7 @@ end UartTX;
 
 architecture comp of UartTX is
 
-    signal index:       natural;
+    signal index:       natural range 0 to 15;
     signal localdata:   std_logic_vector(7 downto 0);
     signal paritybit:   std_logic;
     signal counter:     unsigned(7 downto 0);
