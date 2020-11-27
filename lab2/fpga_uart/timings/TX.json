@@ -1,0 +1,26 @@
+{signal: [
+  { node: '.....a..bc..de..f'},
+  {name: 'clk', 		wave: 'p.....|..|||..|......'},
+  {name: 'clken', 		wave: '10..10|10|||10|10..10'},
+  {},
+  {name: 'address', 	wave: 'x=x...|..|||=x|......', data: ['addr', 'addr']},
+  //{name: 'read', 		wave: '0.....'},
+  //{name: 'readdata', 	wave: 'x.....', data: ['data']},
+  {name: 'write', 		wave: '010...|..|||10|......'},
+  {name: 'writedata', 	wave: 'x=x...|..|||=x|......', data: ['data', 'data2']},
+  {},
+  {name: 'TXdata', 		wave: '7.=..7|..|||.=|.....7', data: ['ready', 'data', 'ready', 'data2', 'ready']},
+  {name: 'TXready', 	wave: '1.0..1|..|||.0|.....1'},
+  {},
+  {name: 'ready', 		wave: '1....0|..|||..|.1...0'},
+  {name: 'start', 		wave: '0.1..0|..|||.1|.....0'},
+  {name: 'localdata', 	wave: 'x....=|..|||..|.x...=', data: ['data', 'data2']},
+  {name: 'index', 		wave: 'x....=|.=|=|.=|.x...=', data: ['0', '1', '8', '9', '0']},
+  {},
+  {name: 'TX', 			wave: '1....0|.3|4|.1|.....0', data: ['bit 0', 'bit 7']},
+  //{name: 'RX', wave: ''},
+],
+  edge: [
+  'a<-|->b Baud Interval', 'c<-|->d All bit transmissions', 'e<-|->f Baud Interval'
+]
+}

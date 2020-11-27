@@ -1,0 +1,12 @@
+{signal: [
+  {name: 'clk', wave: 'p.....'},
+  {},
+  {name: 'address', 	wave: 'x=.x=x', data: ['addr', 'addr']},
+  {name: 'read', 		wave: '01.0..', data: ['head', 'body', 'tail', 'data']},
+  {name: 'readdata', 	wave: 'x.=x..', data: ['data']},
+  {name: 'write', 		wave: '0...10'},
+  {name: 'writedata', 	wave: 'x...=x', data: ['data']},
+  //{},
+  //{name: 'TX', wave: ''},
+  //{name: 'RX', wave: ''},
+]}
