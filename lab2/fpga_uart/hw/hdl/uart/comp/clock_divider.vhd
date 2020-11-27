@@ -8,7 +8,7 @@ entity ClockDivider is
         clk:        in std_logic;
         clkdiv:     in unsigned(2 downto 0);
 
-        clken:      out std_logic := '0' -- slow clock
+        clken:      out std_logic := '1' -- slow clock
     );
 end ClockDivider;
 
@@ -26,7 +26,7 @@ begin
     begin
         if nReset = '0' then
             counter <= (others => '0');
-            clken <= '0';
+            clken <= '1';
         elsif rising_edge(clk) then
             if counter = maxVal - 1 then
                 counter <= (others => '0');
