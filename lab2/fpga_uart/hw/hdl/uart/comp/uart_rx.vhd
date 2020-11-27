@@ -101,13 +101,12 @@ begin
             ready <= '1';
             pending <= '0';
             dataok <= '0';
-        elsif falling_edge(RX) then
-            if ready = '1' then -- IDLE to PENDING
+        elsif rising_edge(clk) then
+            if ready = '1' and RX = '0' then -- IDLE to PENDING
                 ready <= '0';
                 pending <= '1';
                 counter <= (others => '0');
             end if;
-        elsif rising_edge(clk) then
             if clken = '1' then
                 if ready = '0' then     -- BUSY state
                     if pending = '1' then   -- PENDING state
