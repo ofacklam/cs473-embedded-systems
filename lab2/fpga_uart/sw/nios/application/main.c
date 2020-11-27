@@ -40,6 +40,8 @@ void sendResult() {
 }
 
 void receiveChar(uint8_t data) {
+	data &= 0x7f; // remove highest bit (all ASCII characters are < 128)
+
 	if(data == '+') {
 		num1 = finishNumber();
 	} else if(data == '\r') {
@@ -58,7 +60,7 @@ void receiveChar(uint8_t data) {
 
 int main() {
 	setBaudRate(CLK_FREQ, 2, BAUDRATE);
-	setParity(0, 0);
+	setParity(1, 0);
 	registerReceiveHandler(receiveChar);
 
 	testTX();
