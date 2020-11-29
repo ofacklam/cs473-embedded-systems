@@ -1,0 +1,15 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Problem statement}{1}%
+\contentsline {section}{\numberline {2}System overview}{2}%
+\contentsline {section}{\numberline {3}UART controller design}{2}%
+\contentsline {subsection}{\numberline {3.1}Programmable interface}{3}%
+\contentsline {subsection}{\numberline {3.2}Internal architecture}{4}%
+\contentsline {subsection}{\numberline {3.3}TX design}{4}%
+\contentsline {subsection}{\numberline {3.4}RX design}{4}%
+\contentsline {subsection}{\numberline {3.5}Timing of operations}{4}%
+\contentsline {subsection}{\numberline {3.6}Implementation details}{4}%
+\contentsline {section}{\numberline {4}Calculator software}{4}%
+\contentsline {subsection}{\numberline {4.1}UART driver}{4}%
+\contentsline {subsection}{\numberline {4.2}Main program}{4}%
+\contentsline {section}{\numberline {5}Operation \& results}{4}%
+\contentsline {section}{\numberline {6}Conclusion}{4}%
