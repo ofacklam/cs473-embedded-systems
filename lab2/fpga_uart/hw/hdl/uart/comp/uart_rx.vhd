@@ -33,8 +33,8 @@ architecture comp of UartRX is
 
 begin
 
-    -- reception triggered by RX falling edge, logic synchronous to the slow clock
-    process(clk, nReset, RX)
+    -- RX start detection synchronous to fast clock, logic synchronous to slow clock
+    process(clk, nReset)
         variable baudTick: boolean;
         variable maxVal: unsigned(7 downto 0);
 

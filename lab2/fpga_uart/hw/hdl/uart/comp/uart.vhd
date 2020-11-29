@@ -63,11 +63,11 @@ architecture comp of Uart is
 
             -- data
             inputdata:      in std_logic_vector(7 downto 0);
-            ready:          buffer std_logic := '1';
+            ready:          buffer std_logic;
             start:          in std_logic;
 
             -- Conduit
-            TX:     out std_logic := '1'
+            TX:     out std_logic
         );
     end component;
 
@@ -84,8 +84,8 @@ architecture comp of Uart is
             parityodd:      in std_logic;
 
             -- data
-            outputdata:     out std_logic_vector(7 downto 0) := "00000000";
-            dataok:         out std_logic := '0';
+            outputdata:     out std_logic_vector(7 downto 0);
+            dataok:         out std_logic;
 
             -- Conduit
             RX:     in std_logic
@@ -98,7 +98,7 @@ architecture comp of Uart is
             clk:        in std_logic;
             clkdiv:     in unsigned(2 downto 0);
 
-            clken:      out std_logic := '0' -- slow clock
+            clken:      out std_logic -- slow clock
         );
     end component;
 

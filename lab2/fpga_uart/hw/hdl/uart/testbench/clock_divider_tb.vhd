@@ -40,7 +40,7 @@ begin
         end if;
     end process;
 
-    -- test the UART TX
+    -- test the clock divider
     simulation: process
     
             procedure async_reset is 
