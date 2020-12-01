@@ -210,14 +210,14 @@ The job of the RX block is to detect and receive a byte on the RX line, outputti
 
 When a low RX signal is detected in the idle state, the system goes into a pending state and waits for half a baud interval to sample the start bit and confirm this as an actual transmission. After that, the 8 data bits are sampled at the defined baud intervals. Finally the data is flushed to the controller and we return to the idle state. This state machine is represented in figure \ref{fig:smrx}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=.7\textwidth]{rx}
 	\caption{Signals in the RX block}
 	\label{fig:rx}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
 	\centering
 	\includegraphics[width=.8\textwidth]{smrx}
 	\caption{State machine of the RX block}
@@ -298,16 +298,16 @@ The system works as expected. Expressions containing a single addition can be ty
 
 A demo video has also been submitted on Moodle, alongside this report and the source code.
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
 	\includegraphics[width=\textwidth]{connections}
 	\caption{Connections between the FPGA and the host computer}
 	\label{fig:connection}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[p]
 	\centering
-	\includegraphics[width=\textwidth]{io}
+	\includegraphics[width=\textwidth]{io_crop}
 	\caption{Input/output on the minicom terminal}
 	\label{fig:io}
 \end{figure}

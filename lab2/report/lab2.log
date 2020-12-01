@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.24)  30 NOV 2020 21:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.24)  1 DEC 2020 15:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -591,20 +591,13 @@ File: rx.pdf Graphic file (type pdf)
 <use rx.pdf>
 Package pdftex.def Info: rx.pdf  used on input line 215.
 (pdftex.def)             Requested size: 338.58632pt x 164.70366pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 <smrx.pdf, id=36, 348.34138pt x 347.37779pt>
 File: smrx.pdf Graphic file (type pdf)
 <use smrx.pdf>
 Package pdftex.def Info: smrx.pdf  used on input line 222.
 (pdftex.def)             Requested size: 386.95897pt x 385.91724pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4] [5 <./architecture.pdf> <./smsys.pdf>] [6 <./tx.pdf> <./smtx.pdf>] [7 <./rx
-.pdf> <./smrx.pdf>]
+ [4] [5 <./architecture.pdf> <./smsys.pdf>] [6 <./tx.pdf> <./smtx.pdf>] [7 <./r
+x.pdf> <./smrx.pdf>]
 <timings/read_write_ctrl.pdf, id=108, 255.95625pt x 158.09062pt>
 File: timings/read_write_ctrl.pdf Graphic file (type pdf)
 <use timings/read_write_ctrl.pdf>
@@ -625,71 +618,38 @@ Package pdftex.def Info: timings/RX_rot.pdf  used on input line 253.
 pdfTeX warning: /usr/bin/pdflatex (file ./timings/TX.pdf): PDF inclusion: multi
 ple pdfs with page group included in a single page
 >] [9 <./timings/RX_rot.pdf>]
-
-LaTeX Warning: Reference `fig:connection' on page 10 undefined on input line 29
-7.
-
-
-LaTeX Warning: Reference `fig:io' on page 10 undefined on input line 297.
-
-
-! LaTeX Error: File `connections' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.303 ...degraphics[width=\textwidth]{connections}
-                                                  
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: File `io' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.310 	\includegraphics[width=\textwidth]{io}
-                                             
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[10] [11] (./lab2.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+<connections.jpg, id=140, 4625.28pt x 2601.72pt>
+File: connections.jpg Graphic file (type jpg)
+<use connections.jpg>
+Package pdftex.def Info: connections.jpg  used on input line 303.
+(pdftex.def)             Requested size: 483.69687pt x 272.05724pt.
+<io_crop.png, id=141, 1251.67625pt x 486.81876pt>
+File: io_crop.png Graphic file (type png)
+<use io_crop.png>
+Package pdftex.def Info: io_crop.png  used on input line 310.
+(pdftex.def)             Requested size: 483.69687pt x 188.12776pt.
+ [10] [11 <./connections.jpg> <./io_crop.png>]
+(./lab2.aux) ) 
 Here is how much of TeX's memory you used:
- 10809 strings out of 480906
- 196676 string characters out of 5910771
+ 10783 strings out of 480906
+ 196542 string characters out of 5910771
  617740 words of memory out of 5000000
- 26227 multiletter control sequences out of 15000+600000
+ 26212 multiletter control sequences out of 15000+600000
  597266 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,12n,51p,829b,751s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dv
-ips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/sha
-re/texmf/fonts/enc/dvips/lm/lm-ts1.enc}</usr/share/texmf/fonts/type1/public/lm/
-lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/
-fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pf
-b></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/ty
-pe1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on lab2.pdf (11 pages, 335189 bytes).
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/
+fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmtt.e
+nc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}</usr/share/texmf/fonts/type
+1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/
+share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/publi
+c/lm/lmr8.pfb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/te
+xmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lm
+tt12.pfb>
+Output written on lab2.pdf (11 pages, 4124644 bytes).
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
+ 179 PDF objects out of 1000 (max. 8388607)
  122 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 
