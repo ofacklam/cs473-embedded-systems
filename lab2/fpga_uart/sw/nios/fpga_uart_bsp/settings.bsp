@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Nov 27, 2020 3:07:57 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1606486077372</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Nov 30, 2020 9:48:01 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1606769281469</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/vm/Documents/lab2/fpga_uart/sw/nios/fpga_uart_bsp</BspGeneratedLocation>
-        <BspSettingsFile>./settings.bsp</BspSettingsFile>
+        <BspSettingsFile>/home/vm/Documents/lab2/fpga_uart/sw/nios/fpga_uart_bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/vm/Documents/lab2/fpga_uart/hw/quartus/system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
