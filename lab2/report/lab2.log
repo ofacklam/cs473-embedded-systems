@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.24)  29 NOV 2020 17:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Debian) (preloaded format=pdflatex 2020.10.24)  30 NOV 2020 21:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -539,50 +539,157 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \tf@toc=\write3
 \openout3 = `lab2.toc'.
 
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-<system.pdf, id=9, 832.06856pt x 413.62529pt>
+<system.pdf, id=1, 832.06856pt x 413.62529pt>
 File: system.pdf Graphic file (type pdf)
 <use system.pdf>
 Package pdftex.def Info: system.pdf  used on input line 84.
 (pdftex.def)             Requested size: 483.69687pt x 240.4456pt.
- [2 <./system.pdf>]
+ [1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 1
 08.
-
-(/usr/share/texmf/tex/latex/lm/ts1lmr.fd
+ (/usr/share/texmf/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-<interface.png, id=23, 341.275pt x 346.29375pt>
+[2 <./system.pdf>]
+<interface.png, id=24, 341.275pt x 346.29375pt>
 File: interface.png Graphic file (type png)
 <use interface.png>
 Package pdftex.def Info: interface.png  used on input line 121.
 (pdftex.def)             Requested size: 241.84843pt x 245.41057pt.
 
+Overfull \hbox (3.71054pt too wide) in paragraph at lines 166--167
+[]\OT1/lmr/m/n/12 Several sig-nals (\OT1/lmtt/m/n/12 clkdiv\OT1/lmr/m/n/12 , \O
+T1/lmtt/m/n/12 parityenable \OT1/lmr/m/n/12 and \OT1/lmtt/m/n/12 parityodd \OT1
+/lmr/m/n/12 from the CTRL A reg-is-ter, and \OT1/lmtt/m/n/12 baudrate
+ []
+
+[3 <./interface.png>]
+<architecture.pdf, id=31, 917.34718pt x 529.98pt>
+File: architecture.pdf Graphic file (type pdf)
+<use architecture.pdf>
+Package pdftex.def Info: architecture.pdf  used on input line 175.
+(pdftex.def)             Requested size: 483.69687pt x 279.4405pt.
+<smsys.pdf, id=32, 319.1925pt x 227.89139pt>
+File: smsys.pdf Graphic file (type pdf)
+<use smsys.pdf>
+Package pdftex.def Info: smsys.pdf  used on input line 182.
+(pdftex.def)             Requested size: 338.58632pt x 241.73758pt.
+<tx.pdf, id=33, 301.125pt x 146.4672pt>
+File: tx.pdf Graphic file (type pdf)
+<use tx.pdf>
+Package pdftex.def Info: tx.pdf  used on input line 195.
+(pdftex.def)             Requested size: 338.58632pt x 164.70366pt.
+<smtx.pdf, id=34, 434.58359pt x 362.3136pt>
+File: smtx.pdf Graphic file (type pdf)
+<use smtx.pdf>
+Package pdftex.def Info: smtx.pdf  used on input line 202.
+(pdftex.def)             Requested size: 483.69687pt x 403.27301pt.
+<rx.pdf, id=35, 301.125pt x 146.4672pt>
+File: rx.pdf Graphic file (type pdf)
+<use rx.pdf>
+Package pdftex.def Info: rx.pdf  used on input line 215.
+(pdftex.def)             Requested size: 338.58632pt x 164.70366pt.
+
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3 <./interface.png>] [4] (./lab2.aux) ) 
+<smrx.pdf, id=36, 348.34138pt x 347.37779pt>
+File: smrx.pdf Graphic file (type pdf)
+<use smrx.pdf>
+Package pdftex.def Info: smrx.pdf  used on input line 222.
+(pdftex.def)             Requested size: 386.95897pt x 385.91724pt.
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[4] [5 <./architecture.pdf> <./smsys.pdf>] [6 <./tx.pdf> <./smtx.pdf>] [7 <./rx
+.pdf> <./smrx.pdf>]
+<timings/read_write_ctrl.pdf, id=108, 255.95625pt x 158.09062pt>
+File: timings/read_write_ctrl.pdf Graphic file (type pdf)
+<use timings/read_write_ctrl.pdf>
+Package pdftex.def Info: timings/read_write_ctrl.pdf  used on input line 239.
+(pdftex.def)             Requested size: 241.84843pt x 149.37712pt.
+<timings/TX.pdf, id=109, 707.64375pt x 383.93437pt>
+File: timings/TX.pdf Graphic file (type pdf)
+<use timings/TX.pdf>
+Package pdftex.def Info: timings/TX.pdf  used on input line 246.
+(pdftex.def)             Requested size: 483.69687pt x 262.4369pt.
+<timings/RX_rot.pdf, id=110, 429.10312pt x 1028.84166pt>
+File: timings/RX_rot.pdf Graphic file (type pdf)
+<use timings/RX_rot.pdf>
+Package pdftex.def Info: timings/RX_rot.pdf  used on input line 253.
+(pdftex.def)             Requested size: 290.22107pt x 695.85104pt.
+ [8 <./timings/read_write_ctrl.pdf> <./timings/TX.pdf
+
+pdfTeX warning: /usr/bin/pdflatex (file ./timings/TX.pdf): PDF inclusion: multi
+ple pdfs with page group included in a single page
+>] [9 <./timings/RX_rot.pdf>]
+
+LaTeX Warning: Reference `fig:connection' on page 10 undefined on input line 29
+7.
+
+
+LaTeX Warning: Reference `fig:io' on page 10 undefined on input line 297.
+
+
+! LaTeX Error: File `connections' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.303 ...degraphics[width=\textwidth]{connections}
+                                                  
+I could not locate the file with any of these extensions:
+.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: File `io' not found.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.310 	\includegraphics[width=\textwidth]{io}
+                                             
+I could not locate the file with any of these extensions:
+.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[10] [11] (./lab2.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 10697 strings out of 480906
- 195070 string characters out of 5910771
- 618740 words of memory out of 5000000
- 26131 multiletter control sequences out of 15000+600000
+ 10809 strings out of 480906
+ 196676 string characters out of 5910771
+ 617740 words of memory out of 5000000
+ 26227 multiletter control sequences out of 15000+600000
  597266 words of font info for 80 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,12n,51p,829b,751s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm
--rm.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fo
-nts/enc/dvips/lm/lm-ts1.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb>
-</usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1
-/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/sha
-re/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/
-lm/lmsy10.pfb>
-Output written on lab2.pdf (4 pages, 154879 bytes).
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/enc/dv
+ips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rmtt.enc}{/usr/sha
+re/texmf/fonts/enc/dvips/lm/lm-ts1.enc}</usr/share/texmf/fonts/type1/public/lm/
+lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/
+fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pf
+b></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/ty
+pe1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
+Output written on lab2.pdf (11 pages, 335189 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
+ 176 PDF objects out of 1000 (max. 8388607)
+ 122 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 

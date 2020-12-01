@@ -126,7 +126,7 @@ The physical interface of the peripheral is shown in figure \ref{fig:interface}.
 In table \ref{tab:map}, you can find the controller's register map.
 We can see that the combined settings of clock divider (ranging from 1 to 128) and baud interval (ranging from 4 to 254 ticks/bit) allow -- assuming a \SI{50}{\mega\hertz} primary clock -- baud rates between 1.54 kBaud and 12.5 MBaud.
 
-\begin{table}[h]
+\begin{table}[ht]
 	\centering
 	\begin{tabularx}{\linewidth}{|c|c|c|X|}
 		\hline
@@ -153,26 +153,163 @@ We can see that the combined settings of clock divider (ranging from 1 to 128) a
 
 \subsection{Internal architecture}
 
+The internal architecture of the controller is depicted in figure \ref{fig:architecture}.
+
+The architecture is composed of 4 major building blocks:
+\begin{itemize}[nosep]
+	\item a TX block (described in the next subsection);
+	\item an RX block (described in the following subsection);
+	\item a clock divider block, which simply takes as input a fast clock and a clock divider setting, and outputs a ``clock enable'' signal;
+	\item a central ``logic'' block, composed of registers and a state machine, and which acts as the glue between these different entities and the avalon interface.
+\end{itemize}
+
+Several signals (\texttt{clkdiv}, \texttt{parityenable} and \texttt{parityodd} from the CTRL A register, and \texttt{baudrate} from the CTRL B register) are purely settings signals, and are directly fed into the appriopriate sub-entities. These are represented in yellow on figure \ref{fig:architecture}.
+
+The signals in green on the figure, i.e. \texttt{TXdata}, \texttt{start}, \texttt{ready} and \texttt{TX} are the signals related to the TX dataflow. The signals in red, i.e. \texttt{RX}, \texttt{outputdata}, \texttt{dataok} and \texttt{RXdata} are related to the RX dataflow of the system.
+
+Finally, the signals \texttt{TXready}, \texttt{RXavailable} (from CTRL A) and \texttt{newdata} (internal register) describe the state of the state machine. These are in purple on the figure \ref{fig:architecture}. The state machine itself is represented in figure \ref{fig:smsys}.
+
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{architecture}
+	\caption{Architecture \& signals of the UART controller}
+	\label{fig:architecture}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=.7\textwidth]{smsys}
+	\caption{State machine of the UART controller logic}
+	\label{fig:smsys}
+\end{figure}
+
 \subsection{TX design}
+
+The job of the TX block is to transmit a single byte of data with the correct protocol and settings, over the TX line. Its interface and internal registers are summarized in figure \ref{fig:tx}.
+
+The ready signal is used as an internal state, but is also exported for use in the controller logic. When a start signal is received in the idle state, the input data is copied into a local register, and the start bit is output on the TX pin. After this initial setup, each data bit is output at the configured baud interval. If necessary, the parity bit is also sent. Finally, a stop bit is output on the TX line for a whole baud interval before returning to the idle state. A summary of this state machine is shown in figure \ref{fig:smtx}. The whole TX logic is synchronous to the slow clock.
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=.7\textwidth]{tx}
+	\caption{Signals in the TX block}
+	\label{fig:tx}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=\textwidth]{smtx}
+	\caption{State machine of the TX block}
+	\label{fig:smtx}
+\end{figure}
 
 \subsection{RX design}
 
+The job of the RX block is to detect and receive a byte on the RX line, outputting the result to the controller logic. Its interface and internal registers are shown in figure \ref{fig:rx}.
+
+When a low RX signal is detected in the idle state, the system goes into a pending state and waits for half a baud interval to sample the start bit and confirm this as an actual transmission. After that, the 8 data bits are sampled at the defined baud intervals. Finally the data is flushed to the controller and we return to the idle state. This state machine is represented in figure \ref{fig:smrx}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.7\textwidth]{rx}
+	\caption{Signals in the RX block}
+	\label{fig:rx}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=.8\textwidth]{smrx}
+	\caption{State machine of the RX block}
+	\label{fig:smrx}
+\end{figure}
+
 \subsection{Timing of operations}
 
+The following 3 figures show the rough timing of typical operations, with the most important interface and internal signal states. 
+
+Figure \ref{fig:timerw} displays the timing of Avalon read and write operations. Reads are 1-wait, while writes are 0-wait.
+
+Figure \ref{fig:timetx} shows the timing of a transmit operation, from the data write to the TXDATA register until the whole transmission has completed on the TX pin. The beginning of a second transmission is also shown.
+
+Similarly, figure \ref{fig:timerx} shows the timing of a receive operation, and the data read of the received byte. The beginning of a second reception is also depicted.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.5\textwidth]{timings/read_write_ctrl}
+	\caption{Timing of Avalon read \& write}
+	\label{fig:timerw}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{timings/TX}
+	\caption{Timing of data transmission}
+	\label{fig:timetx}
+\end{figure}
+
+\begin{figure}[p]
+	\centering
+	\includegraphics[width=.6\textwidth]{timings/RX_rot}
+	\caption{Timing of data reception}
+	\label{fig:timerx}
+\end{figure}
+
+
 \subsection{Implementation details}
+
+All implementation files are found in the \texttt{hw/hdl/uart/comp} folder.
+
+The TX and RX blocks are implemented respectively in the \texttt{uart\_tx.vhd} and \texttt{uart\_rx.vhd} files. All operations of the state machines (expect the detection of a reception start) are synchronous to the slow clock, and are implemented in a single process (with some helper procedures).
+
+The clock divider is implemented in \texttt{clock\_divider.vhd}, and is a simple counter, regularly enabling the \texttt{clken} signal.
+
+Finally the UART controller main logic is implemented in the \texttt{uart.vhd} file. It intantiates the 3 sub-entities, and defines two processes: one for Avalon slave writes and TX management, and the other for Avalon slave reads and RX management.
+
+Testbenches can be found in the \texttt{hw/hdl/uart/testbench} folder. There is a testbench for each of these components.
 
 
 \section{Calculator software}
 
+In this section, we will describe the design and implementation of the ``calculator'' software. The goal is to create an application that can receive an arithmetic expression character-by-character, buffer it, parse it, evaluate it, and finally send back the result character-by-character. 
+
+The code is separated into a UART driver managing the polling and buffers for the UART controller, and the main application logic implementing the calculator.
+
+All the code can be found in the \texttt{sw/nios/application} folder.
+
 \subsection{UART driver}
 
+The UART driver has a large buffer for characters pending for transmission. It also stores a function pointer to a callback which is called for each received byte. The central function \texttt{run()} consists of an infinite loop, polling the UART controller's CTRLA register, and testing both the \texttt{RXavailable} and \texttt{TXready} flags.
+
+If a some new received data is available, it is retrieved and the callback is called with this byte as argument. If the controller is ready for transmission, the next byte in the FIFO buffer is popped and sent to the controller.
+
+The driver also supports managing the baud rate and parity settings.
+
 \subsection{Main program}
+
+The main program sets up the UART communication parameters, and registers a callback function for handling incoming characters. All characters except + and newline are buffered. When a + or newline arrives, the currently buffered character string is converted into a integer. Once we receive the newline, the result is calculated based on the 2 parsed integers, and a response string is formatted and buffered in the UART driver.
 
 
 \section{Operation \& results}
 
+For the operation, the controller and the minicom terminal were both set to a baud rate of 500kBaud, with a communication pattern of 7-bit data, even parity bit, and 1 stop bit (7E1).
 
-\section{Conclusion}
+The system works as expected. Expressions containing a single addition can be typed into the minicom terminal. These expressions are correctly sent over the UART pins to the FPGA. The connection is shown in figure \ref{fig:connection}. The calculator answers with a string which is correctly displayed on the host terminal. The obtained input/output is shown in figure \ref{fig:io}.
 
+A demo video has also been submitted on Moodle, alongside this report and the source code.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{connections}
+	\caption{Connections between the FPGA and the host computer}
+	\label{fig:connection}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth]{io}
+	\caption{Input/output on the minicom terminal}
+	\label{fig:io}
+\end{figure}
 
 \end{document}
