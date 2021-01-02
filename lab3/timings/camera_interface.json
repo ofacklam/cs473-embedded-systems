@@ -1,0 +1,25 @@
+{signal: [
+  { 					node: '......a.......b.c.......d.e...f'},
+  {name: 'pixclk', 		wave: 'p.|..|.|..|.||..|..', period: 2},
+  {name: 'fval', 		wave: '0.1.|......|...|.....|...|.|.....|0...'},
+  {name: 'lval', 		wave: '0...|.1....|..0|1....|..0|1|..0..|....'},
+  {name: 'data', 		wave: 'x...|.7.9.7|9.x|6.7.6|7.x|6|7.x..|....', data: ['px0 (G1)', 'px1 (R)', '', 'pxn (R)', 'px0 (B)', 'px1 (G2)', '', 'pxn (G2)', '', 'pxn (G2)']},
+  {name: 'row', 		wave: '=..8|..8...|...5|5.......x|5...8.|.=..', data: ['inactive', 'pre_row_even', 'row_even', 'pre_row_odd', 'row_odd', 'row_odd', 'pre_row_even', 'inactive']},
+  {name: 'col', 		wave: '8...|..5.8|5.8.8|5.8|5.8.8|5.8.8.|....', data: ['inactive', 'odd', 'even', 'odd', 'even', 'inactive', 'odd', 'even', 'odd', 'even', 'inactive', 'odd', 'even', 'inactive']},
+  {name: 'greenData', 	wave: 'x...|..7.x|7.x..|...|.....|......|....', data: ['px0']},
+  {name: 'greenWrite', 	wave: '0...|..1.0|1.0.|....|.....|......|....'},
+  {name: 'redData', 	wave: 'x...|....9.x|9.x|...|.....|......|....', data: ['px1', 'pxn']},
+  {name: 'redWrite', 	wave: '0...|.10.1.0|10|....|.....|......|....'},
+  {name: 'greenRead', 	wave: '0...|.......|..|.1.0|1.0..|1.0...|....'},
+  {name: 'G1', 			wave: 'x...|.......|..|..7.x|7.x.|.7.x..|....', data: ['px0 (G1)', '']},
+  {name: 'redRead', 	wave: '0...|.......|..|.1.0|1.0..|1.0...|....'},
+  {name: 'R', 			wave: 'x...|.......|..|..9.x|9.x.|.9.x..|....', data: ['px1 (R)', 'pxn (R)']},
+  {name: 'B', 			wave: 'x...|.......|..|.6..|6...x|6...x.|....', data: ['px0 (B)', '']},
+  {name: 'G2', 			wave: 'x...|.......|..|...7.|.7..|..7...|....', data: ['px1 (G2)', 'pxn (G2)', 'pxn (G2)']},
+  {name: 'pixelData', 	wave: 'x...|.......|..|...=x|.=x.|..=x..|....', data: ['px0', 'pxn', 'pxn']},
+  {name: 'pixelWrite', 	wave: '0...|.......|..|10.1|0.10.|..10..|....'}
+],
+  edge: [
+  'a<-|->b Row 0', 'c<-|->d Row 1', 'e<-|->f Row n', 'f<-|->g Baud Interval', 'h<-|->i 1/2 Baud Interval'
+]
+}

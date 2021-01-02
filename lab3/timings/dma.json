@@ -1,0 +1,18 @@
+{signal: [
+  { 						node: '.....a........b...c.....d..'},
+  {name: 'clk', 			wave: 'p..|......|.....|..|.......'},
+  {name: 'enableDMA', 		wave: '01.|......|.....|..|.....0.'},
+  {name: 'bufAddress', 		wave: '=..|......|.....|..|.....=.', data: ['buf0addr', 'buf1addr']},
+  {name: 'size', 			wave: '=..|=.x...|....=|=.|x....=.', data: ['0', '80', '<80', '80', '0']},
+  {name: 'read', 			wave: '0..|.10.10|1010.|..|10.10..'},
+  {name: 'counter', 		wave: 'x..|.44..4|44.x.|.4|44..x..', data: ['0', '1', '2', '78', '79', '0', '78', '79']},
+  {name: 'AM_address', 		wave: 'x.7|......|....7|..|7....x.', data: ['addr', 'addr+4*80', 'addr+4*80*479']},
+  {name: 'AM_write', 		wave: '0..|.1....|...0.|.1|....0..'},
+  {name: 'AM_writedata', 	wave: 'x..|5.5..5|55.5.|..|55..x..', data: ['px01', 'px23', 'px45', '', 'pxlast', 'px\'01', '', 'pxframelast']},
+  {name: 'AM_burstcount', 	wave: 'x..|.=....|...x.|.=|....x..', data: ['80', '80']},
+  {name: 'AM_waitreq', 		wave: '0..|..1.01|010..|.1|01.0...'},
+],
+  edge: [
+  'a<-|->b Burst 1', 'c<-|->d All frame bursts', 'e<-|->f Row n', 'f<-|->g Baud Interval', 'h<-|->i 1/2 Baud Interval'
+]
+}
