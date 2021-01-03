@@ -26,8 +26,8 @@ entity Fsm is
         dmaBufLen:      out std_logic_vector(31 downto 0);
 
         -- conduit for synchronization
-        bufferDisp:     in std_logic_vector(maxBuffers downto 0);
-        bufferCapt:     buffer std_logic_vector(maxBuffers downto 0) := (others => '0')
+        bufferDisp:     in std_logic_vector(maxBuffers-1 downto 0);
+        bufferCapt:     buffer std_logic_vector(maxBuffers-1 downto 0) := (others => '0')
     );
 end Fsm;
 
