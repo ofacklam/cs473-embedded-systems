@@ -10,14 +10,14 @@ entity Registers is
         -- Avalon slave
         AS_address:     in std_logic;
         AS_read:        in std_logic;
-        AS_readdata:    out std_logic_vector(31 downto 0);
+        AS_readdata:    out std_logic_vector(31 downto 0) := (others => '0');
         AS_write:       in std_logic;
         AS_writedata:   in std_logic_vector(31 downto 0);
 
         -- connection to other controller modules
-        buf0Address:    buffer std_logic_vector(31 downto 0);
-        bufLength:      buffer std_logic_vector(31 downto 0);
-        bufNumber:      buffer unsigned(2 downto 0)
+        buf0Address:    buffer std_logic_vector(31 downto 0) := (others => '0');
+        bufLength:      buffer std_logic_vector(31 downto 0) := (others => '0');
+        bufNumber:      buffer unsigned(2 downto 0) := (others => '0')
     );
 end Registers;
 
