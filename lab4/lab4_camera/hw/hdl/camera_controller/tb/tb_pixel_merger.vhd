@@ -6,7 +6,7 @@ entity tb_pixel_merger is
 end tb_pixel_merger;
 
 architecture test of tb_pixel_merger is
-    constant WAIT_PERIOD: time := 100ns;
+    constant WAIT_PERIOD: time := 100 ns;
 
     -- pixel signals
     signal G1:      std_logic_vector(11 downto 0);
