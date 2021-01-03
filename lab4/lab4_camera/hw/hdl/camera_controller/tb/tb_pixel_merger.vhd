@@ -28,7 +28,7 @@ begin
         pixel => pixel
     );
 
-    -- test the UART
+    -- test the merger
     simulation: process
 
         procedure checkMerge(
