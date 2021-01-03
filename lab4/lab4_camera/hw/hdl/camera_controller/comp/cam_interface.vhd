@@ -70,6 +70,7 @@ architecture comp of CamInterface is
     -- The components
     component single_clk_fifo
         PORT (
+            aclr:       IN STD_LOGIC ;
             clock:      IN STD_LOGIC ;
             data:       IN STD_LOGIC_VECTOR (11 DOWNTO 0);
             rdreq:      IN STD_LOGIC ;
@@ -170,6 +171,7 @@ begin
     -- Green1 FIFO
     greenFifo: single_clk_fifo
     port map(
+        aclk => not nReset,
         clock => pixclk,
         data => greenData,
         rdreq => greenRead,
@@ -186,6 +188,7 @@ begin
     -- Red FIFO
     redFifo: single_clk_fifo
     port map(
+        aclk => not nReset,
         clock => pixclk,
         data => redData,
         rdreq => redRead,
