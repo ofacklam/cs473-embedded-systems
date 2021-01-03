@@ -46,6 +46,7 @@ architecture comp of CamInterface is
     signal col_is_odd:          std_logic;
 
     -- Green1 FIFO
+    signal greenClear:          std_logic;
     signal greenData:           std_logic_vector(11 downto 0);
     signal greenFull:           std_logic;
     signal greenWrite:          std_logic;
@@ -54,6 +55,7 @@ architecture comp of CamInterface is
     signal G1:                  std_logic_vector(11 downto 0);
 
     -- Red FIFO
+    signal redClear:            std_logic;
     signal redData:             std_logic_vector(11 downto 0);
     signal redFull:             std_logic;
     signal redWrite:            std_logic;
@@ -171,7 +173,7 @@ begin
     -- Green1 FIFO
     greenFifo: single_clk_fifo
     port map(
-        aclk => not nReset,
+        aclr => greenClear,
         clock => pixclk,
         data => greenData,
         rdreq => greenRead,
@@ -181,6 +183,7 @@ begin
         q => G1
     );
 
+    greenClear <= not nReset;
     greenWrite <= enableCam and nReset and fval and lval and row_is_even and col_is_odd and (not greenFull);
     greenRead <= enableCam and nReset and fval and lval and row_is_odd and col_is_odd and (not greenEmpty);
 
@@ -188,7 +191,7 @@ begin
     -- Red FIFO
     redFifo: single_clk_fifo
     port map(
-        aclk => not nReset,
+        aclr => redClear,
         clock => pixclk,
         data => redData,
         rdreq => redRead,
@@ -198,6 +201,7 @@ begin
         q => R
     );
 
+    redClear <= not nReset;
     redWrite <= enableCam and nReset and fval and lval and row_is_even and col_is_even and (not redFull);
     redRead <= enableCam and nReset and fval and lval and row_is_odd and col_is_odd and (not redEmpty);
 
