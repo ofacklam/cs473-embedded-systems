@@ -7,9 +7,6 @@ module soc_system (
 	cameracontroller_0_synchro_conduit_capturing,
 	cameracontroller_0_synchro_conduit_displaying,
 	clk_clk,
-	cmos_sensor_output_generator_0_cmos_sensor_frame_valid,
-	cmos_sensor_output_generator_0_cmos_sensor_line_valid,
-	cmos_sensor_output_generator_0_cmos_sensor_data,
 	hps_0_ddr_mem_a,
 	hps_0_ddr_mem_ba,
 	hps_0_ddr_mem_ck,
@@ -86,9 +83,6 @@ module soc_system (
 	output	[3:0]	cameracontroller_0_synchro_conduit_capturing;
 	input	[3:0]	cameracontroller_0_synchro_conduit_displaying;
 	input		clk_clk;
-	output		cmos_sensor_output_generator_0_cmos_sensor_frame_valid;
-	output		cmos_sensor_output_generator_0_cmos_sensor_line_valid;
-	output	[11:0]	cmos_sensor_output_generator_0_cmos_sensor_data;
 	output	[14:0]	hps_0_ddr_mem_a;
 	output	[2:0]	hps_0_ddr_mem_ba;
 	output		hps_0_ddr_mem_ck;
