@@ -142,7 +142,8 @@ ACDS_VERSION := 18.1
 ELF := cam_lcd.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS := hello_world.c
+C_SRCS += cmos_sensor_output_generator/cmos_sensor_output_generator.c
+C_SRCS += cam_lcd_main.c
 CXX_SRCS :=
 ASM_SRCS :=
 
