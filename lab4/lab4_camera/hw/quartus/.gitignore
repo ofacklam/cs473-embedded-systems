@@ -7,3 +7,5 @@ incremental_db/*
 # compilation results
 output_files/
 output_files/*
+
+.qsys_edit/
