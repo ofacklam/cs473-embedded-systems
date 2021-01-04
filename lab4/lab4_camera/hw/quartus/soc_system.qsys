@@ -9,11 +9,27 @@
    categories="System" />
  <parameter name="bonusData"><![CDATA[bonusData 
 {
+   element CameraController_0
+   {
+      datum _sortIndex
+      {
+         value = "7";
+         type = "int";
+      }
+   }
+   element CameraController_0.avalon_slave
+   {
+      datum baseAddress
+      {
+         value = "268437512";
+         type = "String";
+      }
+   }
    element address_span_extender_0
    {
       datum _sortIndex
       {
-         value = "4";
+         value = "8";
          type = "int";
       }
    }
@@ -38,11 +54,27 @@
          type = "int";
       }
    }
+   element cmos_sensor_output_generator_0
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
+   element cmos_sensor_output_generator_0.avalon_slave
+   {
+      datum baseAddress
+      {
+         value = "268437536";
+         type = "String";
+      }
+   }
    element hps_0
    {
       datum _sortIndex
       {
-         value = "5";
+         value = "9";
          type = "int";
       }
    }
@@ -56,6 +88,22 @@
       datum baseAddress
       {
          value = "0";
+         type = "String";
+      }
+   }
+   element i2c_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
+   element i2c_0.avalon_slave
+   {
+      datum baseAddress
+      {
+         value = "268437568";
          type = "String";
       }
    }
@@ -126,7 +174,7 @@
    {
       datum _sortIndex
       {
-         value = "6";
+         value = "4";
          type = "int";
       }
    }
@@ -204,15 +252,39 @@
  <parameter name="timeStamp" value="0" />
  <parameter name="useTestBenchNamingPattern" value="false" />
  <instanceScript></instanceScript>
+ <interface
+   name="cameracontroller_0_camera_conduit"
+   internal="CameraController_0.camera_conduit"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="cameracontroller_0_synchro_conduit"
+   internal="CameraController_0.synchro_conduit"
+   type="conduit"
+   dir="end" />
  <interface name="clk" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface
+   name="cmos_sensor_output_generator_0_cmos_sensor"
+   internal="cmos_sensor_output_generator_0.cmos_sensor"
+   type="conduit"
+   dir="end" />
  <interface name="hps_0_ddr" internal="hps_0.memory" type="conduit" dir="end" />
  <interface name="hps_0_io" internal="hps_0.hps_io" type="conduit" dir="end" />
+ <interface name="i2c_0_i2c" internal="i2c_0.i2c" type="conduit" dir="end" />
  <interface
    name="pio_leds_external_connection"
    internal="pio_leds.external_connection"
    type="conduit"
    dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <module
+   name="CameraController_0"
+   kind="CameraController"
+   version="1.0"
+   enabled="1">
+  <parameter name="burstsize" value="80" />
+  <parameter name="maxBuffers" value="4" />
+ </module>
  <module
    name="address_span_extender_0"
    kind="altera_address_span_extender"
@@ -232,6 +304,15 @@
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module
+   name="cmos_sensor_output_generator_0"
+   kind="cmos_sensor_output_generator"
+   version="15.1"
+   enabled="1">
+  <parameter name="MAX_HEIGHT" value="480" />
+  <parameter name="MAX_WIDTH" value="640" />
+  <parameter name="PIX_DEPTH" value="12" />
  </module>
  <module name="hps_0" kind="altera_hps" version="18.1" enabled="1">
   <parameter name="ABSTRACT_REAL_COMPARE_TEST" value="false" />
@@ -763,6 +844,7 @@
   <parameter name="usb_mp_clk_div" value="0" />
   <parameter name="use_default_mpu_clk" value="true" />
  </module>
+ <module name="i2c_0" kind="i2c" version="15.1" enabled="1" />
  <module
    name="jtag_uart_0"
    kind="altera_avalon_jtag_uart"
@@ -806,7 +888,7 @@
   <parameter name="dataAddrWidth" value="29" />
   <parameter name="dataMasterHighPerformanceAddrWidth" value="1" />
   <parameter name="dataMasterHighPerformanceMapParam" value="" />
-  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x10000000' type='hps_bridge_avalon.f2h_sdram0_data' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x10000000' end='0x10000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='pio_leds.s1' start='0x10000810' end='0x10000820' type='altera_avalon_pio.s1' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></parameter>
+  <parameter name="dataSlaveMapParam"><![CDATA[<address-map><slave name='hps_0_bridges.f2h_sdram0_data' start='0x0' end='0x10000000' type='hps_bridge_avalon.f2h_sdram0_data' /><slave name='nios2_gen2_0.debug_mem_slave' start='0x10000000' end='0x10000800' type='altera_nios2_gen2.debug_mem_slave' /><slave name='jtag_uart_0.avalon_jtag_slave' start='0x10000800' end='0x10000808' type='altera_avalon_jtag_uart.avalon_jtag_slave' /><slave name='CameraController_0.avalon_slave' start='0x10000808' end='0x10000810' type='CameraController.avalon_slave' /><slave name='pio_leds.s1' start='0x10000810' end='0x10000820' type='altera_avalon_pio.s1' /><slave name='cmos_sensor_output_generator_0.avalon_slave' start='0x10000820' end='0x10000840' type='cmos_sensor_output_generator.avalon_slave' /><slave name='i2c_0.avalon_slave' start='0x10000840' end='0x10000844' type='i2c.avalon_slave' /><slave name='onchip_memory2_0.s1' start='0x10100000' end='0x10120000' type='altera_avalon_onchip_memory2.s1' /></address-map>]]></parameter>
   <parameter name="data_master_high_performance_paddr_base" value="0" />
   <parameter name="data_master_high_performance_paddr_size" value="0" />
   <parameter name="data_master_paddr_base" value="0" />
@@ -852,7 +934,7 @@
   <parameter name="instruction_master_high_performance_paddr_size" value="0" />
   <parameter name="instruction_master_paddr_base" value="0" />
   <parameter name="instruction_master_paddr_size" value="0" />
-  <parameter name="internalIrqMaskSystemInfo" value="1" />
+  <parameter name="internalIrqMaskSystemInfo" value="3" />
   <parameter name="io_regionbase" value="0" />
   <parameter name="io_regionsize" value="0" />
   <parameter name="master_addr_map" value="false" />
@@ -1013,10 +1095,46 @@
  <connection
    kind="avalon"
    version="18.1"
+   start="CameraController_0.avalon_master"
+   end="address_span_extender_0.windowed_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
    start="nios2_gen2_0.data_master"
    end="jtag_uart_0.avalon_jtag_slave">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x10000800" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="nios2_gen2_0.data_master"
+   end="CameraController_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x10000808" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="nios2_gen2_0.data_master"
+   end="i2c_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x10000840" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="18.1"
+   start="nios2_gen2_0.data_master"
+   end="cmos_sensor_output_generator_0.avalon_slave">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x10000820" />
   <parameter name="defaultConnection" value="false" />
  </connection>
  <connection
@@ -1099,13 +1217,31 @@
    kind="clock"
    version="18.1"
    start="clk_0.clk"
+   end="CameraController_0.clock" />
+ <connection kind="clock" version="18.1" start="clk_0.clk" end="i2c_0.clock" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
+   end="cmos_sensor_output_generator_0.clock" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clk_0.clk"
    end="hps_0.f2h_sdram0_clock" />
  <connection
    kind="interrupt"
    version="18.1"
    start="nios2_gen2_0.irq"
-   end="jtag_uart_0.irq">
+   end="i2c_0.interrupt_sender">
   <parameter name="irqNumber" value="0" />
+ </connection>
+ <connection
+   kind="interrupt"
+   version="18.1"
+   start="nios2_gen2_0.irq"
+   end="jtag_uart_0.irq">
+  <parameter name="irqNumber" value="1" />
  </connection>
  <connection
    kind="reset"
@@ -1131,6 +1267,17 @@
    kind="reset"
    version="18.1"
    start="clk_0.clk_reset"
+   end="CameraController_0.reset" />
+ <connection kind="reset" version="18.1" start="clk_0.clk_reset" end="i2c_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
+   end="cmos_sensor_output_generator_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="clk_0.clk_reset"
    end="onchip_memory2_0.reset1" />
  <connection
    kind="reset"
@@ -1147,6 +1294,21 @@
    version="18.1"
    start="nios2_gen2_0.debug_reset_request"
    end="address_span_extender_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="nios2_gen2_0.debug_reset_request"
+   end="CameraController_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="nios2_gen2_0.debug_reset_request"
+   end="i2c_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="nios2_gen2_0.debug_reset_request"
+   end="cmos_sensor_output_generator_0.reset" />
  <connection
    kind="reset"
    version="18.1"
@@ -1172,6 +1334,17 @@
    version="18.1"
    start="hps_0.h2f_reset"
    end="pio_leds.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="hps_0.h2f_reset"
+   end="CameraController_0.reset" />
+ <connection kind="reset" version="18.1" start="hps_0.h2f_reset" end="i2c_0.reset" />
+ <connection
+   kind="reset"
+   version="18.1"
+   start="hps_0.h2f_reset"
+   end="cmos_sensor_output_generator_0.reset" />
  <connection
    kind="reset"
    version="18.1"
