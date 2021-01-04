@@ -1,0 +1,9 @@
+# intermediate compilation files
+db/
+db/*
+incremental_db/
+incremental_db/*
+
+# compilation results
+output_files/
+output_files/*

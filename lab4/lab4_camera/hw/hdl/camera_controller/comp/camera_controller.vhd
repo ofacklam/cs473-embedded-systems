@@ -4,8 +4,8 @@ use ieee.numeric_std.all;
 
 entity CameraController is
     generic(
-        maxBuffers:     positive;
-        burstsize:      positive range 1 to 128
+        maxBuffers:     positive                    := 4;
+        burstsize:      positive range 1 to 128     := 80
     );
     port(
         -- clock
