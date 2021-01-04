@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jan 4, 2021 6:04:09 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1609779849665</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jan 4, 2021 9:40:16 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1609792816172</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/vm/Documents/lab4/lab4_camera/sw/nios/cam_lcd_bsp</BspGeneratedLocation>
-        <BspSettingsFile>./settings.bsp</BspSettingsFile>
+        <BspSettingsFile>/home/vm/Documents/lab4/lab4_camera/sw/nios/cam_lcd_bsp/settings.bsp</BspSettingsFile>
         <SopcDesignFile>/home/vm/Documents/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
@@ -875,6 +875,18 @@
                 <Group>none</Group>
         </Setting>
         <Setting>
+                <SettingName>altera_hostfs.hostfs_name</SettingName>
+                <Identifier>ALTERA_HOSTFS_NAME</Identifier>
+                <Type>QuotedString</Type>
+                <Value>/mnt/host</Value>
+                <DefaultValue>/mnt/host</DefaultValue>
+                <DestinationFile>system_h_define</DestinationFile>
+                <Description>Mount point</Description>
+                <Restrictions>none</Restrictions>
+                <Enabled>false</Enabled>
+                <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </Setting>
+        <Setting>
                 <SettingName>altera_avalon_jtag_uart_driver.enable_small_driver</SettingName>
                 <Identifier>ALTERA_AVALON_JTAG_UART_SMALL</Identifier>
                 <Type>BooleanDefineOnly</Type>
@@ -923,14 +935,8 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>cmos_sensor_output_generator_0</slaveDescriptor>
-                <addressRange>0x10000820 - 0x1000083F</addressRange>
-                <addressSpan>32</addressSpan>
-                <attributes/>
-        </MemoryMap>
-        <MemoryMap>
                 <slaveDescriptor>i2c_0</slaveDescriptor>
-                <addressRange>0x10000840 - 0x10000843</addressRange>
+                <addressRange>0x10000820 - 0x10000823</addressRange>
                 <addressSpan>4</addressSpan>
                 <attributes/>
         </MemoryMap>
@@ -964,4 +970,8 @@
                 <sectionName>.stack</sectionName>
                 <regionName>onchip_memory2_0</regionName>
         </LinkerSection>
+        <SoftwarePackageInfo>
+                <name>altera_hostfs</name>
+                <version>default</version>
+        </SoftwarePackageInfo>
 </sch:Settings>

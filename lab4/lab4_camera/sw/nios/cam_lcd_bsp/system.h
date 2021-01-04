@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
  * SOPC Builder design path: /home/vm/Documents/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
  *
- * Generated: Mon Jan 04 18:04:10 CET 2021
+ * Generated: Mon Jan 04 21:39:06 CET 2021
  */
 
 /*
@@ -160,7 +160,6 @@
 #define __ALTERA_AVALON_PIO
 #define __ALTERA_NIOS2_GEN2
 #define __CAMERACONTROLLER
-#define __CMOS_SENSOR_OUTPUT_GENERATOR
 #define __HPS_BRIDGE_AVALON
 #define __I2C
 
@@ -202,20 +201,11 @@
 
 
 /*
- * cmos_sensor_output_generator_0 configuration
+ * altera_hostfs configuration
  *
  */
 
-#define ALT_MODULE_CLASS_cmos_sensor_output_generator_0 cmos_sensor_output_generator
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_BASE 0x10000820
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_IRQ -1
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_MAX_HEIGHT 480
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_MAX_WIDTH 640
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_NAME "/dev/cmos_sensor_output_generator_0"
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_PIX_DEPTH 12
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_SPAN 32
-#define CMOS_SENSOR_OUTPUT_GENERATOR_0_TYPE "cmos_sensor_output_generator"
+#define ALTERA_HOSTFS_NAME "/mnt/host"
 
 
 /*
@@ -249,7 +239,7 @@
  */
 
 #define ALT_MODULE_CLASS_i2c_0 i2c
-#define I2C_0_BASE 0x10000840
+#define I2C_0_BASE 0x10000820
 #define I2C_0_IRQ -1
 #define I2C_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define I2C_0_NAME "/dev/i2c_0"
