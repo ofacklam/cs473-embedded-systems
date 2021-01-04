@@ -61,7 +61,7 @@ architecture comp of CameraController is
     signal pixelClear:      std_logic;
 
     -- FIFO read
-    signal data:            std_logic_vector(31 downto 0);
+    signal q:            std_logic_vector(31 downto 0);
     signal read:            std_logic;
     signal empty:           std_logic;
     signal size:            std_logic_vector(11 downto 0);
@@ -168,7 +168,7 @@ architecture comp of CameraController is
 begin
 
     -- Registers component
-    regs: Register
+    regs: Registers
     port map(
         nReset => nReset,
         clk => clk,
@@ -183,7 +183,7 @@ begin
     );
 
     -- FSM component
-    fsm: Fsm
+    state_machine: Fsm
     generic map(
         maxBuffers => maxBuffers
     )
@@ -219,7 +219,7 @@ begin
     );
 
     -- DMA component
-    dma: Dma
+    master: Dma
     generic map(
         burstsize => burstsize
     )
@@ -229,7 +229,7 @@ begin
         enableDma => enableDma,
         bufAddress => dmaBufAddress,
         bufLength => dmaBufLength,
-        data => data,
+        data => q,
         size => size,
         read => read,
         AM_address => AM_address,
@@ -248,11 +248,11 @@ begin
         rdreq => read,
         wrclk => pixclk,
         wrreq => pixelWrite,
-        q => data,
+        q => q,
         rdempty => empty,
         rdusedw => size,
         wrfull => pixelFull
     );
-    pixelClear => not nReset;
+    pixelClear <= not nReset;
 
 end comp ; -- comp
