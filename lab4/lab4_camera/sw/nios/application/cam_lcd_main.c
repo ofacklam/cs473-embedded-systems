@@ -15,6 +15,7 @@
  */
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "system.h"
@@ -96,7 +97,7 @@ bool trdb_d5m_read(i2c_dev *i2c, uint8_t register_offset, uint16_t *data) {
     }
 }
 
-void init_camera_hardware() {
+void init_camera_hardware(bool disableBLC, bool testPattern) {
 	i2c_dev i2c = I2C_INST(I2C_0);
 	i2c_init(&i2c, I2C_FREQ);
 
@@ -110,13 +111,26 @@ void init_camera_hardware() {
 	// set row binning (REG 35 col mode)
 	trdb_d5m_write(&i2c, 35, 0x0033); // col skip 4x, col bin 4x
 
+	// (optional) disable black level calibration
+	if(disableBLC) {
+		trdb_d5m_write(&i2c, 32, 0x0000); // disable row-BLC
+		trdb_d5m_write(&i2c, 75, 0x0000); // digital offset 0
+		trdb_d5m_write(&i2c, 98, 0x0003); // disable BLC
+		trdb_d5m_write(&i2c, 96, 0x0000); // analog offset 0
+		trdb_d5m_write(&i2c, 97, 0x0000); // analog offset 0
+		trdb_d5m_write(&i2c, 99, 0x0000); // analog offset 0
+		trdb_d5m_write(&i2c, 100, 0x0000); // analog offset 0
+	}
+
 	// (optional) set test pattern mode
-	/*trdb_d5m_write(&i2c, 98, 0x0002); // disable BLC
-	trdb_d5m_write(&i2c, 160, 0x0001); // vertical bars
-	trdb_d5m_write(&i2c, 161, 0x0fff);
-	trdb_d5m_write(&i2c, 162, 0x0fff);
-	trdb_d5m_write(&i2c, 163, 0x0fff);
-	trdb_d5m_write(&i2c, 164, 0x00a0);*/
+	if(testPattern) {
+		trdb_d5m_write(&i2c, 161, 0x0aaa);
+		trdb_d5m_write(&i2c, 162, 0x0aaa);
+		trdb_d5m_write(&i2c, 163, 0x0aaa);
+		trdb_d5m_write(&i2c, 164, 0x00a1);
+		trdb_d5m_write(&i2c, 160, 0x0041); // color field
+	}
+
 }
 
 /*******************************************
@@ -190,7 +204,7 @@ void init_camera_controller() {
 int main() {
 	printf("Hello from Nios II!\n");
 
-	init_camera_hardware();
+	init_camera_hardware(true, true);
 	usleep(1000000);
 
 	init_camera_controller();
