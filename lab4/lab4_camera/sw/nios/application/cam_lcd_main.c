@@ -158,8 +158,9 @@ void print_memory(uint32_t begin, uint32_t numRows, uint32_t numCols) {
 /**
  * From https://rosettacode.org/wiki/Bitmap/Write_a_PPM_file#C
  */
-void print_to_file(uint32_t begin, uint32_t numRows, uint32_t numCols) {
-	char* filename = "/mnt/host/image.ppm";
+void print_to_file(char idx, uint32_t begin, uint32_t numRows, uint32_t numCols) {
+	char* filename = "/mnt/host/imagex.ppm";
+	filename[15] = ('0' + idx);
 	FILE *fp = fopen(filename, "wb");
 
 	// Header
@@ -204,13 +205,15 @@ void init_camera_controller() {
 int main() {
 	printf("Hello from Nios II!\n");
 
-	init_camera_hardware(true, true);
+	init_camera_hardware(true, false);
 	usleep(1000000);
 
 	init_camera_controller();
-	usleep(2000000);
 
-	print_to_file(BUF_START, HEIGHT, WIDTH);
+	for(int i = 0; i < 10; i++) {
+		usleep(5000000);
+		print_to_file(i, BUF_START, HEIGHT, WIDTH);
+	}
 
 	return 0;
 }
