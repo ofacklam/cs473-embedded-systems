@@ -50,13 +50,13 @@ entity DE0_Nano_SoC_TRDB_D5M_LT24_top_level is
         --GPIO_0_LT24_ADC_DIN      : out std_logic;
         --GPIO_0_LT24_ADC_DOUT     : in  std_logic;
         --GPIO_0_LT24_ADC_PENIRQ_N : in  std_logic;
-        --GPIO_0_LT24_CS_N         : out std_logic;
-        --GPIO_0_LT24_D            : out std_logic_vector(15 downto 0);
-        --GPIO_0_LT24_LCD_ON       : out std_logic;
-        --GPIO_0_LT24_RD_N         : out std_logic;
-        --GPIO_0_LT24_RESET_N      : out std_logic;
-        --GPIO_0_LT24_RS           : out std_logic;
-        --GPIO_0_LT24_WR_N         : out std_logic;
+        GPIO_0_LT24_CS_N         : out std_logic;
+        GPIO_0_LT24_D            : out std_logic_vector(15 downto 0);
+        GPIO_0_LT24_LCD_ON       : out std_logic;
+        GPIO_0_LT24_RD_N         : out std_logic;
+        GPIO_0_LT24_RESET_N      : out std_logic;
+        GPIO_0_LT24_RS           : out std_logic;
+        GPIO_0_LT24_WR_N         : out std_logic;
 
         -- GPIO_1
         GPIO_1_D5M_D       : in    std_logic_vector(11 downto 0);
@@ -130,8 +130,6 @@ architecture rtl of DE0_Nano_SoC_TRDB_D5M_LT24_top_level is
 			cameracontroller_0_camera_conduit_linevalid   : in    std_logic                     := 'X';             -- linevalid
 			cameracontroller_0_camera_conduit_clk         : in    std_logic                     := 'X';             -- clk
 			cameracontroller_0_camera_conduit_data        : in    std_logic_vector(11 downto 0) := (others => 'X'); -- data
-			cameracontroller_0_synchro_conduit_capturing  : out   std_logic_vector(3 downto 0);                     -- capturing
-			cameracontroller_0_synchro_conduit_displaying : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- displaying
 			clk_clk                                       : in    std_logic                     := 'X';             -- clk
 			hps_0_ddr_mem_a                               : out   std_logic_vector(14 downto 0);                    -- mem_a
 			hps_0_ddr_mem_ba                              : out   std_logic_vector(2 downto 0);                     -- mem_ba
@@ -200,16 +198,19 @@ architecture rtl of DE0_Nano_SoC_TRDB_D5M_LT24_top_level is
 			i2c_0_i2c_scl                                 : inout std_logic                     := 'X';             -- scl
 			i2c_0_i2c_sda                                 : inout std_logic                     := 'X';             -- sda
 			pio_leds_external_connection_export           : out   std_logic_vector(7 downto 0);                     -- export
-			reset_reset_n                                 : in    std_logic                     := 'X'              -- reset_n
+			reset_reset_n                                 : in    std_logic                     := 'X';              -- reset_n
+			
+			lcd_controller_0_lcd_output_csx              : out   std_logic;                                        -- csx
+			lcd_controller_0_lcd_output_d                : out   std_logic_vector(15 downto 0);                    -- d
+			lcd_controller_0_lcd_output_dcx              : out   std_logic;                                        -- dcx
+			lcd_controller_0_lcd_output_lcd_on           : out   std_logic;                                        -- lcd_on
+			lcd_controller_0_lcd_output_rdx              : out   std_logic;                                        -- rdx
+			lcd_controller_0_lcd_output_resx             : out   std_logic;                                        -- resx
+			lcd_controller_0_lcd_output_wrx              : out   std_logic   
 		);
 	end component soc_system;
 
-    signal displaying:     std_logic_vector(3 downto 0);
-    signal capturing:       std_logic_vector(3 downto 0);
-
 begin
-
-    displaying(0) <= not KEY_N(1);
 
     GPIO_1_D5M_XCLKIN <= FPGA_CLK1_50;
     GPIO_1_D5M_RESET_N <= KEY_N(0);
@@ -220,8 +221,6 @@ begin
         cameracontroller_0_camera_conduit_linevalid     => GPIO_1_D5M_LVAL,         --                                   .linevalid
         cameracontroller_0_camera_conduit_clk           => GPIO_1_D5M_PIXCLK,       --                                   .clk
         cameracontroller_0_camera_conduit_data          => GPIO_1_D5M_D,            --                                   .data
-        cameracontroller_0_synchro_conduit_capturing    => capturing,               -- cameracontroller_0_synchro_conduit.capturing
-        cameracontroller_0_synchro_conduit_displaying   => displaying,              --                                   .displaying
         clk_clk                                         => FPGA_CLK1_50,            --                                clk.clk
         hps_0_ddr_mem_a                                 => HPS_DDR3_ADDR,           --                                  hps_0_ddr.mem_a
         hps_0_ddr_mem_ba                                => HPS_DDR3_BA,             --                                           .mem_ba
@@ -290,7 +289,16 @@ begin
         i2c_0_i2c_scl                                   => GPIO_1_D5M_SCLK,         --                          i2c_0_i2c.scl
         i2c_0_i2c_sda                                   => GPIO_1_D5M_SDATA,        --                                   .sda
         pio_leds_external_connection_export             => LED,                     --       pio_leds_external_connection.export
-        reset_reset_n                                   => KEY_N(0)                 --                              reset.reset_n
+        reset_reset_n                                   => KEY_N(0),                 --                              reset.reset_n
+		  
+		  lcd_controller_0_lcd_output_csx              => GPIO_0_LT24_CS_N,              --       lcd_controller_0_lcd_output.csx
+			lcd_controller_0_lcd_output_d                => GPIO_0_LT24_D,                --                                  .d
+			lcd_controller_0_lcd_output_dcx              => GPIO_0_LT24_RS,              --                                  .dcx
+			lcd_controller_0_lcd_output_lcd_on           => GPIO_0_LT24_LCD_ON,           --                                  .lcd_on
+			lcd_controller_0_lcd_output_rdx              => GPIO_0_LT24_RD_N,              --                                  .rdx
+			lcd_controller_0_lcd_output_resx             => GPIO_0_LT24_RESET_N,             --                                  .resx
+			lcd_controller_0_lcd_output_wrx              => GPIO_0_LT24_WR_N 
+            
     );
 
 end;
