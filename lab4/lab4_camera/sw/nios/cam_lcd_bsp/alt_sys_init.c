@@ -2,9 +2,9 @@
  * alt_sys_init.c - HAL initialization source
  *
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
- * SOPC Builder design path: /home/vm/Documents/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
+ * SOPC Builder design path: C:/Users/brase/Videos/cs473-embedded-systems/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
  *
- * Generated: Mon Jan 04 21:39:06 CET 2021
+ * Generated: Wed Jan 06 15:57:01 CET 2021
  */
 
 /*

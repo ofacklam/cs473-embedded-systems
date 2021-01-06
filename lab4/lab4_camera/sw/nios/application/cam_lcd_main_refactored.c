@@ -1,26 +1,9 @@
-/*
- * "Hello World" example.
- *
- * This example prints 'Hello from Nios II' to the STDOUT stream. It runs on
- * the Nios II 'standard', 'full_featured', 'fast', and 'low_cost' example
- * designs. It runs with or without the MicroC/OS-II RTOS and requires a STDOUT
- * device in your system's hardware.
- * The memory footprint of this hosted application is ~69 kbytes by default
- * using the standard reference design.
- *
- * For a reduced footprint version of this template, and an explanation of how
- * to reduce the memory footprint for a given application, see the
- * "small_hello_world" template.
- *
- */
-
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
 
 #include "system.h"
 #include "io.h"
-//#include "cmos_sensor_output_generator/cmos_sensor_output_generator.h"
 #include "i2c/i2c.h"
 #include "image.h"
 
@@ -42,29 +25,6 @@
 #define BUF_SIZE 	WIDTH * HEIGHT * 2
 #define NUM_BUF 	4
 
-/******************************************************
- * CMOS sensor
- ******************************************************/
-/**
- * From CMOS sensor demo
- */
-/*void init_cmos_generator() {
-	cmos_sensor_output_generator_dev cmos_sensor_output_generator
-		  = CMOS_SENSOR_OUTPUT_GENERATOR_INST(CMOS_SENSOR_OUTPUT_GENERATOR_0);
-
-	cmos_sensor_output_generator_init(&cmos_sensor_output_generator);
-	cmos_sensor_output_generator_stop(&cmos_sensor_output_generator);
-
-	cmos_sensor_output_generator_configure(&cmos_sensor_output_generator,
-											 2*WIDTH,
-											 2*HEIGHT,
-											 FRAME_FRAME,
-											 FRAME_LINE,
-											 LINE_LINE,
-											 LINE_FRAME);
-
-	cmos_sensor_output_generator_start(&cmos_sensor_output_generator);
-}*/
 
 /************************************************
  * Camera setup TRDB-D5M
@@ -134,13 +94,19 @@ void init_camera_hardware(bool disableBLC, bool testPattern) {
 
 }
 
+
 /*******************************************
- * Memory readout
+ * Memory read / write
  *******************************************/
 
 uint16_t get_pixel(uint32_t base, uint32_t row_idx, uint32_t col_idx, uint32_t width) {
 	uint32_t addr = HPS_0_BRIDGES_BASE + base + 2 * (row_idx*width + col_idx);
 	return IORD_16DIRECT(addr, 0);
+}
+
+void set_pixel(uint32_t base, uint32_t row_idx, uint32_t col_idx, uint32_t width, uint16_t val) {
+	uint32_t addr = HPS_0_BRIDGES_BASE + base + 2 * (row_idx*width + col_idx);
+	return IOWR_16DIRECT(addr, 0, val);
 }
 
 /**
@@ -154,15 +120,6 @@ void print_memory(uint32_t begin, uint32_t numRows, uint32_t numCols) {
 		}
 		printf("\n");
 	}
-}
-
-/*******************************************
- * Memory readout
- *******************************************/
-
-void set_pixel(uint32_t base, uint32_t row_idx, uint32_t col_idx, uint32_t width, uint16_t val) {
-	uint32_t addr = HPS_0_BRIDGES_BASE + base + 2 * (row_idx*width + col_idx);
-	return IOWR_16DIRECT(addr, 0, val);
 }
 
 void set_memory(uint32_t begin, uint32_t numRows, uint32_t numCols) {
@@ -216,19 +173,8 @@ void init_camera_controller() {
 }
 
 
-
 /***************************************
- * Utils function
- ***************************************/
-
-void Delay_Ms(int time_ms) {
-    usleep(time_ms * 1000);
-    return;
-}
-
-
-/***************************************
- * Sending D/C to LCD screen
+ * Programming LCD controller and LCD screen
  ***************************************/
 
 void LCD_WR_REG(uint16_t command) {
@@ -241,17 +187,12 @@ void LCD_WR_DATA(uint16_t data) {
     usleep(1);
 }
 
-
-/***************************************
- * Initialize lcd controller
- ***************************************/
-
-void enable_component() {
-    IOWR_32DIRECT(LCD_CONTROLLER_0_BASE, 0x00 *4, 1);
+void enable_lcd_controller_display() {
+    IOWR_32DIRECT(LCD_CONTROLLER_0_BASE, 0x00, 1);
     printf("%d ", IORD_32DIRECT(LCD_CONTROLLER_0_BASE, 0x00));
 }
 
-void disable_component() {
+void disable_lcd_controller_display() {
     IOWR_32DIRECT(LCD_CONTROLLER_0_BASE, 0x00, 0);
     printf("%d ", IORD_32DIRECT(LCD_CONTROLLER_0_BASE, 0x00));
 }
@@ -266,15 +207,34 @@ void set_fps(uint32_t n) {
     printf("%d ", IORD_32DIRECT(LCD_CONTROLLER_0_BASE, 0x01));
 }
 
-void LCD_Init() {
-    // Set_LCD_RST();
-    // Delay_Ms(1);
-    // Clr_LCD_RST();
-    // Delay_Ms(10); // Delay 10ms // This delay time is necessary
-    // Set_LCD_RST();
-    // Delay_Ms(120); // Delay 120 ms
-    // Clr_LCD_CS();
 
+/***************************************
+ * Utils function
+ ***************************************/
+
+void Delay_Ms(int time_ms) {
+    usleep(time_ms * 1000);
+    return;
+}
+
+void print_starting_image() {
+	int colors[] = {0x0000, 0xf800, 0x001f,0x07E0};
+	for (int iter = 0; iter < 3; iter++) {
+		for(int i = 0; i < img_size; i++) {
+			for (int j = 0; j < img[img_size-i-1]; j++) {
+				LCD_WR_DATA(colors[iter + i%2]);
+			}
+		}
+	}
+}
+
+
+/***************************************
+ * LCD controller init
+ ***************************************/
+
+void init_LCD() {
+	set_buffer_address(BUF_START);
 
     Delay_Ms(120); // Delay 120 ms
     LCD_WR_REG(0x0011); //Exit Sleep
@@ -310,8 +270,6 @@ void LCD_Init() {
     LCD_WR_REG(0x00B6); // Display Function Control
         LCD_WR_DATA(0x000A);
         LCD_WR_DATA(0x00A2);
-        // 2 PARAMETERS MISSING
-
 
     LCD_WR_REG(0x00C0); // Power control 1
         LCD_WR_DATA(0x0005); // VRH[5:0]
@@ -381,40 +339,7 @@ void LCD_Init() {
 
     // WARNING : set next pixel to beginning of the frame
     LCD_WR_REG(0x002c); // 0x2C --> last command before sending pixels (Memory Write)
-
-    //enable_component();
 }
-
-void print_starting_image() {
-	for(int i = 0; i < 1565; i++) {
-		for (int j = 0; j < img[1565-i-1]; j++) {
-			if (i % 2 == 0) { LCD_WR_DATA(0x0000);
-			} else {
-				LCD_WR_DATA(0xf800);
-			}
-		}
-	}
-	for(int i = 0; i < 1565; i++) {
-			for (int j = 0; j < img[1565-i-1]; j++) {
-				if (i % 2 == 0) {
-					LCD_WR_DATA(0xf800);
-				} else {
-					LCD_WR_DATA(0x001f);
-				}
-			}
-		}
-	for(int i = 0; i < 1565; i++) {
-			for (int j = 0; j < img[1565-i-1]; j++) {
-				if (i % 2 == 0) {
-					LCD_WR_DATA(0x001f);
-				} else {
-					LCD_WR_DATA(0x07E0);
-				}
-			}
-		}
-}
-
-
 
 
 /*****************************************
@@ -422,50 +347,22 @@ void print_starting_image() {
  *****************************************/
 
 int main() {
-	printf("Hello from Nios II!\n");
 
-
+	// initialize the camera
 	init_camera_hardware(false, false);
-	usleep(1000000);
-
+	Delay_Ms(2000);
 	init_camera_controller();
 
-	/*
-	set_memory(BUF_START + BUF_SIZE * 0, HEIGHT, WIDTH);
-	set_memory(BUF_START + BUF_SIZE * 1, HEIGHT, WIDTH);
-	set_memory(BUF_START + BUF_SIZE * 2, HEIGHT, WIDTH);
-	set_memory(BUF_START + BUF_SIZE * 3, HEIGHT, WIDTH);*/
+	// initialize the lcd controller
+	disable_lcd_controller_display();
+	set_fps(25);
+	init_LCD();
 
-
-	disable_component();
-	set_buffer_address(BUF_START);
-	set_fps(30);
-	LCD_Init();
-	//enable_component();
-
-
-	/*
-	for(int i = 0; i < WIDTH * HEIGHT; i++) {
-		LCD_WR_DATA(0x001f);
-	}
-	for(int i = 0; i < WIDTH * HEIGHT; i++) {
-		LCD_WR_DATA(0x07E0);
-	}*/
-
+	// display the initial picture
 	print_starting_image();
 
-
-	enable_component();
-
-	/*
-	usleep(1000000);
-	print_to_file(0, BUF_START, HEIGHT, WIDTH);*/
-
-	/*
-	for(int i = 0; i < 10; i++) {
-		usleep(5000000);
-		print_to_file(i, BUF_START, HEIGHT, WIDTH);
-	}*/
+	// start displaying the image of the camera
+	enable_lcd_controller_display();
 
 	return 0;
 }

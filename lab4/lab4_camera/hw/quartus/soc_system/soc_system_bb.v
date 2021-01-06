@@ -4,8 +4,6 @@ module soc_system (
 	cameracontroller_0_camera_conduit_linevalid,
 	cameracontroller_0_camera_conduit_clk,
 	cameracontroller_0_camera_conduit_data,
-	cameracontroller_0_synchro_conduit_capturing,
-	cameracontroller_0_synchro_conduit_displaying,
 	clk_clk,
 	hps_0_ddr_mem_a,
 	hps_0_ddr_mem_ba,
@@ -74,14 +72,19 @@ module soc_system (
 	i2c_0_i2c_scl,
 	i2c_0_i2c_sda,
 	pio_leds_external_connection_export,
-	reset_reset_n);	
+	reset_reset_n,
+	lcd_controller_0_lcd_output_csx,
+	lcd_controller_0_lcd_output_d,
+	lcd_controller_0_lcd_output_dcx,
+	lcd_controller_0_lcd_output_lcd_on,
+	lcd_controller_0_lcd_output_rdx,
+	lcd_controller_0_lcd_output_resx,
+	lcd_controller_0_lcd_output_wrx);	
 
 	input		cameracontroller_0_camera_conduit_framevalid;
 	input		cameracontroller_0_camera_conduit_linevalid;
 	input		cameracontroller_0_camera_conduit_clk;
 	input	[11:0]	cameracontroller_0_camera_conduit_data;
-	output	[3:0]	cameracontroller_0_synchro_conduit_capturing;
-	input	[3:0]	cameracontroller_0_synchro_conduit_displaying;
 	input		clk_clk;
 	output	[14:0]	hps_0_ddr_mem_a;
 	output	[2:0]	hps_0_ddr_mem_ba;
@@ -151,4 +154,11 @@ module soc_system (
 	inout		i2c_0_i2c_sda;
 	output	[7:0]	pio_leds_external_connection_export;
 	input		reset_reset_n;
+	output		lcd_controller_0_lcd_output_csx;
+	output	[15:0]	lcd_controller_0_lcd_output_d;
+	output		lcd_controller_0_lcd_output_dcx;
+	output		lcd_controller_0_lcd_output_lcd_on;
+	output		lcd_controller_0_lcd_output_rdx;
+	output		lcd_controller_0_lcd_output_resx;
+	output		lcd_controller_0_lcd_output_wrx;
 endmodule

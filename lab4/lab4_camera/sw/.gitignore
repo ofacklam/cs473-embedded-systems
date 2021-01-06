@@ -6,3 +6,7 @@
 *.map
 *.objdump
 *.a
+
+camera_lcd_project_bsp
+archive
+
