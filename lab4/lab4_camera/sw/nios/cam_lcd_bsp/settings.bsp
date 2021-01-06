@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jan 6, 2021 6:44:50 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1609955090237</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\Users\brase\Videos\cs473-embedded-systems\lab4\lab4_camera\sw\camera_lcd_project_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>Jan 6, 2021 10:58:27 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1609970307699</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>C:\Users\brase\Videos\cs473-embedded-systems\lab4\lab4_camera\sw\nios\cam_lcd_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>C:\Users\brase\Videos\cs473-embedded-systems\lab4\lab4_camera\hw\quartus\soc_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>

@@ -3,7 +3,7 @@
 # Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
 # SOPC Builder design path: C:/Users/brase/Videos/cs473-embedded-systems/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
 #
-# Generated: Wed Jan 06 15:57:01 CET 2021
+# Generated: Wed Jan 06 22:52:40 CET 2021
 
 # DO NOT MODIFY THIS FILE
 #

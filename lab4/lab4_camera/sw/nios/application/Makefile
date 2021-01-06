@@ -125,7 +125,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := C:/Users/brase/Videos/cs473-embedded-systems/lab4/lab4_camera/sw/camera_lcd_project_bsp/
+BSP_ROOT_DIR := C:/Users/brase/Videos/cs473-embedded-systems/lab4/lab4_camera/sw/nios/cam_lcd_bsp/
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=
