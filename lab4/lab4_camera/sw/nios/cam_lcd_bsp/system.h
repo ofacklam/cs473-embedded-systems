@@ -2,9 +2,9 @@
  * system.h - SOPC Builder system and BSP software package information
  *
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'soc_system'
- * SOPC Builder design path: /home/vm/Documents/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
+ * SOPC Builder design path: C:/Users/brase/Videos/cs473-embedded-systems/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
  *
- * Generated: Mon Jan 04 21:39:06 CET 2021
+ * Generated: Wed Jan 06 15:57:01 CET 2021
  */
 
 /*
@@ -162,6 +162,7 @@
 #define __CAMERACONTROLLER
 #define __HPS_BRIDGE_AVALON
 #define __I2C
+#define __LCD_CONTROLLER
 
 
 /*
@@ -239,7 +240,7 @@
  */
 
 #define ALT_MODULE_CLASS_i2c_0 i2c
-#define I2C_0_BASE 0x10000820
+#define I2C_0_BASE 0x10000840
 #define I2C_0_IRQ -1
 #define I2C_0_IRQ_INTERRUPT_CONTROLLER_ID -1
 #define I2C_0_NAME "/dev/i2c_0"
@@ -263,6 +264,20 @@
 #define JTAG_UART_0_TYPE "altera_avalon_jtag_uart"
 #define JTAG_UART_0_WRITE_DEPTH 64
 #define JTAG_UART_0_WRITE_THRESHOLD 8
+
+
+/*
+ * lcd_controller_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_lcd_controller_0 lcd_controller
+#define LCD_CONTROLLER_0_BASE 0x10000820
+#define LCD_CONTROLLER_0_IRQ -1
+#define LCD_CONTROLLER_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define LCD_CONTROLLER_0_NAME "/dev/lcd_controller_0"
+#define LCD_CONTROLLER_0_SPAN 32
+#define LCD_CONTROLLER_0_TYPE "lcd_controller"
 
 
 /*

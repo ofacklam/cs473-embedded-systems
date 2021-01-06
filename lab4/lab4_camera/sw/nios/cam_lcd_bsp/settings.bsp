@@ -2,11 +2,11 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jan 4, 2021 9:40:16 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1609792816172</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>/home/vm/Documents/lab4/lab4_camera/sw/nios/cam_lcd_bsp</BspGeneratedLocation>
-        <BspSettingsFile>/home/vm/Documents/lab4/lab4_camera/sw/nios/cam_lcd_bsp/settings.bsp</BspSettingsFile>
-        <SopcDesignFile>/home/vm/Documents/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo</SopcDesignFile>
+        <BspGeneratedTimeStamp>Jan 6, 2021 6:44:50 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1609955090237</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>C:\Users\brase\Videos\cs473-embedded-systems\lab4\lab4_camera\sw\camera_lcd_project_bsp</BspGeneratedLocation>
+        <BspSettingsFile>settings.bsp</BspSettingsFile>
+        <SopcDesignFile>C:\Users\brase\Videos\cs473-embedded-systems\lab4\lab4_camera\hw\quartus\soc_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
         <SchemaVersion>1.9</SchemaVersion>
@@ -935,8 +935,14 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
+                <slaveDescriptor>lcd_controller_0</slaveDescriptor>
+                <addressRange>0x10000820 - 0x1000083F</addressRange>
+                <addressSpan>32</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>i2c_0</slaveDescriptor>
-                <addressRange>0x10000820 - 0x10000823</addressRange>
+                <addressRange>0x10000840 - 0x10000843</addressRange>
                 <addressSpan>4</addressSpan>
                 <attributes/>
         </MemoryMap>

@@ -77,16 +77,16 @@ ALT_CPPFLAGS += -pipe
 
 # This following VERSION comment indicates the version of the tool used to 
 # generate this makefile. A makefile variable is provided for VERSION as well. 
-# ACDS_VERSION: 18.1
-ACDS_VERSION := 18.1
+# ACDS_VERSION: 20.1
+ACDS_VERSION := 20.1
 
 # This following BUILD_NUMBER comment indicates the build number of the tool 
 # used to generate this makefile. 
-# BUILD_NUMBER: 625
+# BUILD_NUMBER: 711
 
 # Qsys--generated SOPCINFO file. Required for resolving node instance ID's with 
 # design component names. 
-SOPCINFO_FILE := /home/vm/Documents/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
+SOPCINFO_FILE := C:/Users/brase/Videos/cs473-embedded-systems/lab4/lab4_camera/hw/quartus/soc_system.sopcinfo
 
 # Big-Endian operation. 
 # setting BIG_ENDIAN is false
