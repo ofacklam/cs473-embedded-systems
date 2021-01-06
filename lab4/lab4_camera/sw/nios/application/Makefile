@@ -89,8 +89,8 @@ ACDS_VERSION := 20.1
 ELF := camera_lcd_project.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS += hello_world.c
 C_SRCS += i2c/i2c.c
+C_SRCS += cam_lcd_main.c
 CXX_SRCS :=
 ASM_SRCS :=
 
