@@ -1,0 +1,15 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Problem statement}{1}%
+\contentsline {section}{\numberline {2}System overview}{2}%
+\contentsline {section}{\numberline {3}Camera controller design}{3}%
+\contentsline {subsection}{\numberline {3.1}Interfaces \& register map}{3}%
+\contentsline {subsection}{\numberline {3.2}Internal architecture}{4}%
+\contentsline {subsection}{\numberline {3.3}Finite state machine (FSM)}{4}%
+\contentsline {subsection}{\numberline {3.4}Camera interface}{5}%
+\contentsline {subsection}{\numberline {3.5}DMA unit}{8}%
+\contentsline {section}{\numberline {4}Frame buffer organization}{9}%
+\contentsline {section}{\numberline {5}System configuration \& operation}{9}%
+\contentsline {section}{\numberline {6}Implementation \& testing}{10}%
+\contentsline {subsection}{\numberline {6.1}System implementation}{10}%
+\contentsline {subsection}{\numberline {6.2}Testing phases}{10}%
+\contentsline {section}{\numberline {7}Results of merged system}{11}%
